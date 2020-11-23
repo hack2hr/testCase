@@ -268,7 +268,7 @@ services.factory('userService', function ($http, $uibModal, $sce, $q, $rootScope
 
     service.login = function (login, password) {
         var deferred = $q.defer();
-        $http.post(ipAdress + "/api/user/login?login="+login+"&password="+password).success(function (response) {
+        $http.get(ipAdress + "/api/user/login?login="+login+"&password="+password).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in getTestRequest in mainService function');

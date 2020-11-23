@@ -1,3 +1,13 @@
+Ui:
+npm install http-server
+cd C:\Users\ksutech\Desktop\testCase\Ui
+http-server -p 80
+
+Server:
 npm install nodejs
 npm install express
-node ../app.js
+start server: 
+#################
+cd C:\Users\ksutech\Desktop\testCase\Server
+node app.js
+
