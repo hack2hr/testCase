@@ -1,0 +1,3 @@
+npm install nodejs
+npm install express
+node ../app.js

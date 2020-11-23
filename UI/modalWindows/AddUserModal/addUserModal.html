@@ -1,0 +1,17 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Новый пользователь</h4>
+    </div>
+    <div class="modal-body">
+        <input placeholder="Имя" class="form-control my-2 mx-1" ng-model="newUser.name">
+        <input placeholder="Фамилия" class="form-control my-2 mx-1" ng-model="newUser.surname">
+        <input placeholder="Отчество" class="form-control my-2 mx-1" ng-model="newUser.secname">
+        <input placeholder="Почта" class="form-control my-2 mx-1" ng-model="newUser.email">
+        <input placeholder="Должность" class="form-control my-2 mx-1" ng-model="newUser.rank">
+        <input class="my-2 mx-1 d-inline" id="rights" type="checkbox" ng-model="newUser.isAdmin"><label class="my-2 mx-1 d-inline"  for="rights">Администратор</label>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary " type="button" ng-click="addUser()">Создать</button>
+        <button class="btn btn-outline-secondary" type="button" ng-click="cancel()">Отмена</button>
+    </div>
+</div>

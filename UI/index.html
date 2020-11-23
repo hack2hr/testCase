@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="myApp" class="no-js" >
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>РОССЕТИ</title>
+    <meta name="description" content="БТР Nova">
+    <meta name="keywords" content="БТР Nova, Hr , хакатон, цифровой прорыв">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/" />
+    <link rel="stylesheet" href="bower_components/bootstrap/md.css" />
+    <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
+    <link rel="stylesheet" href="app.css?1.0">
+    <link rel="stylesheet" href="bower_components/angular-ui-select/select.min.css">
+    <link rel="stylesheet" href="bower_components/jquery/1.12.1/jquery-ui.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="font_awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.bootstrap3.css">
+    <link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.css">
+    <link rel="stylesheet" href="bower_components/radar/Chart.css">
+    <link rel="stylesheet" href="assets/styles.min.css">
+</head>
+
+<body class="ng-cloak" id="page-top">
+<div id="wrapper" ng-controller="UserCtrl">
+   <!-- <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" ng-class="{toggled: isToggled}">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#" style="width: 100%;">
+                <div class="sidebar-brand-text mx-3"><span>БТР Nova</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation"><a class="nav-link active" href="#/main"><i class="fas fa-tachometer-alt"></i><span>Главная страница</span></a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link active" href="#/users"><i class="fas fa-user-alt"></i><span>Пользователи</span></a></li>
+                &lt;!&ndash; <li class="nav-item" role="presentation"><a class="nav-link active" href="#/manage"><i class="fas fa-database"></i><span>Внесение данных</span></a></li>&ndash;&gt;
+            </ul>
+            <div class="text-center d-none d-md-inline"><button ng-click="isToggled=!isToggled" class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+        </div>
+    </nav>-->
+
+        <!--<nav class="navbar navbar-light navbar-expand bg-white topbar static-top pl-0" >
+            <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                <form class="form-inline d-none d-sm-inline-block mr-auto   my-2 my-md-0 mw-100 navbar-search border rounded">
+                    <div style="margin-left: 15px;" class="input-group"> <i class="fas fa-search align-self-center"></i><input class="bg-white form-control border-0 small" style="background-color: white" type="text" placeholder="Поиск..."></div>
+                </form>
+                <ul class="nav navbar-nav flex-nowrap ml-auto">
+                    <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href=""><i class="fas fa-search"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right p-3 animated&#45;&#45;grow-in" role="menu" aria-labelledby="searchDropdown">
+                            <form class="form-inline mr-auto navbar-search w-100 border-">
+                                <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Поиск...">
+                                    <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown no-arrow" role="presentation"  ng-if="user">
+                        <div class="nav-item dropdown no-arrow">
+                            <div class="d-inline">
+                                <span class="d-none d-inline mr-2 text-gray-600 small">{{user.lastName +" "+ user.firstName}}</span>
+                                <a class="dropdown-item d-inline p-0" role="presentation" ng-click="logOut()" href="#/login"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Выйти</a>
+                                <img class="border d-inline rounded-circle img-profile mr-2" ng-src="{{user.isAdmin?'assets/img/avatars/avatar2.jpeg':'assets/img/avatars/avatar1.jpeg'}}"/>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown no-arrow" role="presentation" ng-if="!user">
+                        <div class="nav-item dropdown no-arrow">
+                            <div>
+                                <a class="btn-outline-primary btn" role="presentation" href="#/login">Войти</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>-->
+        <div ng-view class="theme-showcase" id="content-wrapper" role="main" style="background-color: #F8F8FB; "></div>
+
+</div>
+<!--<div class="d-contents bg-white sticky-footer" ng-include="'footer.html'"></div>-->
+
+<!--Plugins and other components-->
+<script src="bower_components/charts/google-charts.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/jquery/jquery.maskedinput.min.js"></script>
+<script src="bower_components/jquery/1.12.1/jquery-ui.js"></script>
+<script src="bower_components/jquery/jquery.blockUI.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/bootstrap/md.js"></script>
+
+
+<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/angular-route/angular-route.min.js"></script>
+<script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
+<script src="bower_components/angular-ui-select/select.min.js"></script>
+<script src="bower_components/radar/Chart.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>-->
+
+
+<!--Application Angular JS files-->
+<script src="app.js?1.4"></script>
+<script src="loginPage/loginPage.js?1.4"></script>
+<script src="mainPage/mainPage.js?1.4"></script>
+<script src="services.js?1.4"></script>
+<script src="manage/manage.js?1.4"></script>
+<script src="users/users.js?1.4"></script>
+
+<!--modal windows-->
+<script src="modalWindows/ConfirmationModal/confirmationModal.js?1.4"></script>
+<script src="modalWindows/InfoModal/infoModal.js?1.4"></script>
+<script src="modalWindows/AddUserModal/addUserModal.js?1.4"></script>
+<script src="modalWindows/EditUserModal/editUserModal.js?1.4"></script>
+
+</body>
+
+</html>
