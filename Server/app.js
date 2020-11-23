@@ -1,6 +1,7 @@
 const express = require("express");
 const {Client} = require('pg');
 const {errorControl} = require('./utils.js');
+var config = require('config');
 const sql = require('yesql').pg;
  // const hostname = '10.0.0.4';
 // FOR LOCAL
@@ -23,16 +24,18 @@ app.use(function (req, res, next) {
 const jsonParser = express.json();
 // // FOR LOCAL
 
+function getFromConfig(query) {
+    if (config.has(query)) {
+        return config.get(query);
+    }
+
+    throw new Error('Error getting from config')
+}
+
 connectToDataBase();
 
 function connectToDataBase() {
-    client = new Client({
-        user: 'postgres',
-        host: '168.63.58.52',
-        database: 'rosset',
-        password: '1',
-        port: 5432
-    });
+    client = new Client(getFromConfig('postgresql'));
     client.connect();
 }
 
