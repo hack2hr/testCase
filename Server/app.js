@@ -1,10 +1,10 @@
-const express = require("express");
+﻿const express = require("express");
 const {Client} = require('pg');
 const {errorControl} = require('./utils.js');
 const sql = require('yesql').pg;
- // const hostname = '10.0.0.4';
+const hostname = '10.0.0.6';
 // FOR LOCAL
-const hostname = '127.0.0.1';
+// const hostname = '127.0.0.1';
 const port = 8080;
 var client = null;
 const app = express();
