@@ -1,13 +1,13 @@
 
 var addUserModal = angular.module('myApp.addUserModalModal', ['ngRoute', 'ui.bootstrap']);
 
-addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, addUserModalService) {
+addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, userService) {
 
     $scope.newUser = {};
 
     $scope.addUser = function(){
         $scope.newUser.isAdmin = $scope.newUser.isAdmin === undefined ? false : $scope.newUser.isAdmin;
-        addUserModalService.addUser($scope.newUser).then(function(result){
+        userService.addUser($scope.newUser).then(function(result){
             $uibModalInstance.close(result);
         }, function(error) {
             console.error('AddUserModalCtrl: ', error);

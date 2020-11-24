@@ -6,17 +6,20 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
 
     $scope.login = null;
     $scope.password = null;
+    $scope.user = {};
 
-    var localUser = localStorage.getItem("user"); //todo в будущем не будет пользователя будет куки и токен
+    var localUser = localStorage.getItem("user"); //todo в будущем не будет пользователя в локальном хранилище он будет идентифицирован в куки в виде токена
     if(localUser){ //if user exits then retry login
         $rootScope.user = JSON.parse(localUser);
     }
 
     $scope.auth = function(){
         if($scope.login && $scope.password){
-            userService.login($scope.login, $scope.password).then(function(response){
-                if(response) {
-                    console.log(response);
+            userService.login($scope.login, $scope.password).then(function(user){
+                if(user && user.user_id) {
+                    $rootScope.user = user;
+                    $scope.user = user;
+                    localStorage.setItem("user", JSON.stringify(user));
                 }
             });
             //toMain();
@@ -29,6 +32,20 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
         }
     }
 
+    $scope.createUser = function(){
+        userService.addUserModal().then(function (){
+
+        })
+    }
+
+    $scope.editUser = function (){
+        if($scope.user){
+            userService.editUser($scope.user).then(function (){
+
+            })
+        }
+    }
+
     function tryDigest() {
         if (!$rootScope.$$phase) {
             $rootScope.$apply();
@@ -36,9 +53,6 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
     }
 
     function toMain(){
-        if($rootScope.user ) {
-            localStorage.setItem("user", JSON.stringify($rootScope.user));
-        }
         $window.location.hash = "#/users";
     }
 
