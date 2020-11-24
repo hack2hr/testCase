@@ -1,4 +1,4 @@
-<h1 align="center">БТР Nova</h1>
+<h1 align="center"> название в разработке </h1>
 
 
 ## Ссылки
@@ -17,14 +17,12 @@
  
 ## Технологии, с помощью которых происходит создание подсистемы
 
-SERVER: NodeJS 3.9 + Django 
+SERVER: NodeJS 
 
-UI: BOOTSTRAP4 + Angular JS + Charts.js
+UI: BOOTSTRAP4 + Angular JS + MdBootstrap
 
-BD: Mongo DB
-
-Модели будут реализованы на python с использованием библиотек: scipy, status models, sk learn
-
+BD: Postgres 10
+ 
 ## Описание серверной части
 
 <pre> 
@@ -35,7 +33,7 @@ BD: Mongo DB
 3. @csrf_exempt - csrf токен выключен
 
 ## Запуск SERVER
-python manage.py runserver <IP ADDRESS>:8080
+ 
 
 ## Описание клиентской части
 На клиенской стороне реализовано приложение AngularJS с использованием библотеки для стилистики веб приложений Bootstrap4, 
@@ -46,4 +44,4 @@ python manage.py runserver <IP ADDRESS>:8080
 </pre>
 
 ## Запуск UI
-python -m http.server --directory ".\hack2hr\UI" 80
+ 
