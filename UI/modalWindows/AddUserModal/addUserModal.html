@@ -3,15 +3,24 @@
         <h4 class="modal-title">Новый пользователь</h4>
     </div>
     <div class="modal-body">
-        <input placeholder="Имя" class="form-control my-2 mx-1" ng-model="newUser.name">
-        <input placeholder="Фамилия" class="form-control my-2 mx-1" ng-model="newUser.surname">
-        <input placeholder="Отчество" class="form-control my-2 mx-1" ng-model="newUser.secname">
-        <input placeholder="Почта" class="form-control my-2 mx-1" ng-model="newUser.email">
-        <input placeholder="Должность" class="form-control my-2 mx-1" ng-model="newUser.rank">
-        <input class="my-2 mx-1 d-inline" id="rights" type="checkbox" ng-model="newUser.isAdmin"><label class="my-2 mx-1 d-inline"  for="rights">Администратор</label>
+        <input placeholder="Логин" class="form-control my-2 mx-1" ng-model="newUser.name">
+        <input placeholder="Пароль" class="form-control my-2 mx-1" ng-model="newUser.password">
+        <select placeholder="Роль" class="form-control my-2 mx-1" ng-model="newUser.role">
+            <option ng-repeat="role in userRoles"
+                    value="{{role.userrole_id}}">
+                {{role.userrole_name}}
+            </option>
+        </select>
+        <input placeholder="Имя" class="form-control my-2 mx-1" ng-model="newUser.firstname">
+        <input placeholder="Фамилия" class="form-control my-2 mx-1" ng-model="newUser.lastname">
+        <input placeholder="Отчество" class="form-control my-2 mx-1" ng-model="newUser.surname">
+        <input placeholder="Компания" class="form-control my-2 mx-1" ng-model="newUser.company">
+        <input placeholder="Отдел" class="form-control my-2 mx-1" ng-model="newUser.department">
+        <input placeholder="Должность" class="form-control my-2 mx-1" ng-model="newUser.position">
+
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary " type="button" ng-click="addUser()">Создать</button>
-        <button class="btn btn-outline-secondary" type="button" ng-click="cancel()">Отмена</button>
+        <button class="btn btn-info px-3 py-2 ml-0 rounded" type="button" ng-click="addUser()">Создать</button>
+        <button class="btn btn-outline-secondary px-3 py-2 ml-0 rounded" type="button" ng-click="cancel()">Отмена</button>
     </div>
 </div>

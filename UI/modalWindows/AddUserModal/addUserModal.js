@@ -14,6 +14,16 @@ addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance,
         });
     }
 
+    $scope.userRoles = [{userrole_id:1, userrole_name:'Пользователь'}];
+    $scope.newUser.role = $scope.userRoles[0];
+
+    function getUserRoles(){
+        userService.addUser($scope.newUser).then(function(result){
+            $scope.userRoles = result;
+        }, function(error) {
+            console.error('AddUserModalCtrl: ', error);
+        });
+    }
 
     $scope.close = function () {
         close();

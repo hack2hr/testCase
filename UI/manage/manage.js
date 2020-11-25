@@ -227,11 +227,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
             peopleData.auto = $scope.isAuto;
             peopleData.madeby = "Ivanov";
 
-            trendService.addPeopleManage(peopleData).then(function () {
 
-            }, function (error) {
-                console.log(error)
-            });
         } else {
             $scope.addError = true;
             setTimeout(function (){

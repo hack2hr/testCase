@@ -13,6 +13,8 @@ editUser.controller('EditUserModalCtrl', function ($scope, $uibModalInstance, us
         });
     }
 
+    $scope.userRoles = [{userrole_id:1, userrole_name:'Пользователь'}];
+    $scope.newUser.role = $scope.userRoles[0];
 
     $scope.close = function () {
         close();

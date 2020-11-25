@@ -260,13 +260,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
     }
 
     /* * * * * * * * * * * * trends calculation * * * * * * * * * */
-    function getTrends() {
-        return Promise.all(
-            $scope.categories.map(function(trend) {
-                return trendService[trend.id].getAll();
-            })
-        );
-    }
+
 
     function setTrends(uploadedTrends) {
         var QUATER_AMOUNT = 4;
