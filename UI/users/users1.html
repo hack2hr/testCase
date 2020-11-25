@@ -1,0 +1,67 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1">
+            <h3 class="text-dark mb-0">Пользователи</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+
+            <div class="text-right"><button ng-click="addUserModal()" ng-if="user.isAdmin" class="btn btn-primary">ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ</button></div>
+            <div class="table-responsive table mt-2" id="dataTable-2" role="grid" aria-describedby="dataTable_info" style="color: rgb(255,255,255);">
+                <table class="table my-0" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>ФИО</th>
+                            <th>EMAIL</th>
+                            <th>ДОЛЖНОСТЬ</th>
+                            <th>СТАТУС</th>
+                            <th>ПОСЛЕДНЯЯ АКТИВНОСТЬ</th>
+                            <th>ПРАВА ДОСТУПА</th>
+                            <th ng-if="user.isAdmin"  ></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="usr in users">
+                        <td>{{$index+1}}</td>
+                        <td>
+                            {{usr.surname + " " + usr.name + " " +usr.secname + " "}}
+                        </td>
+                        <td>
+                            {{usr.email}}
+                        </td>
+                        <td>
+                            {{usr.rank}}
+                        </td>
+                        <td>
+                            {{usr.status}}
+                        </td>
+
+                        <td>
+                            {{usr.activityDate | date:'dd.MM.yyyy'}}
+                        </td>
+                        <td>
+                            {{usr.isAdmin?'Администратор':'Пользователь'}}
+                        </td>
+                        <td class="text-right" ng-if="user.isAdmin"  >
+                            <button class="close" ng-click="deleteUser(usr)"><i class="fa fa-times"></i></button>
+                            <button class="close" ng-click="editUser(usr)"><i class="fa fa-pencil"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                    
+                    <tfoot>
+                    <tr></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
