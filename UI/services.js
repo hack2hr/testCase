@@ -270,7 +270,8 @@ services.factory('userService', function ($http, $uibModal, $sce, $q, $rootScope
 
     service.addUser = function (user) {
         var deferred = $q.defer();
-        $http.post(ipAdress + "/api/user/add", user).success(function (response) {
+        $http.post(ipAdress + "/api/user/add", user).success(function (response, headers) {
+            console.log(headers)
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in getTestRequest in mainService function');
@@ -288,12 +289,23 @@ services.factory('userService', function ($http, $uibModal, $sce, $q, $rootScope
         return deferred.promise;
     };
 
+
+    service.getUserByToken = function (token) {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/user/getUserByToken?token="+token).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getUserByToken in mainService function');
+        });
+        return deferred.promise;
+    };
+
     service.login = function (login, password) {
         var deferred = $q.defer();
         $http.get(ipAdress + "/api/user/login?login="+login+"&password="+password).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
-            deferred.reject('Error in getTestRequest in mainService function');
+            deferred.reject('Error in login in mainService function');
         });
         return deferred.promise;
     };

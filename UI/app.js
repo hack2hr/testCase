@@ -14,7 +14,7 @@ function setIpAddress() {
 };
 
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal','myApp.loginPage',
-        'myApp.infoModal',  'myApp.mainPage', 'myApp.manage', 'myApp.users', 'myApp.addUserModalModal', 'myApp.editUserModalModal']);
+        'myApp.infoModal',  'myApp.mainPage', 'myApp.manage', 'myApp.users', 'myApp.addUserModalModal', 'myApp.editUserModalModal', 'myApp.profile']);
 
 myApp.config(function ($routeProvider) {
 
@@ -53,6 +53,10 @@ myApp.config(function ($routeProvider) {
         .when('/login', {
             templateUrl: 'loginPage/loginPage.html',
             controller: 'LoginCtrl',
+        })
+        .when('/profile', {
+            templateUrl: 'profile/profile.html',
+            controller: 'ProfileCtrl',
         })
 
 });

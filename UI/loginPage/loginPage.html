@@ -14,13 +14,14 @@
                     </div>
                     <button class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="auth()" type="submit">Войти</button>
 
-                    <br>
-                    <button class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="createUser()" type="submit">Создать пользователя</button>
-                    <p>
-                     User authorized with id: {{user.userId}}
-                    </p>
-                    <button ng-if="user" class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="editUser()" type="submit">Редактировать пользователя</button>
+
                 </form>
+                <br>
+                <button class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="createUser()" type="submit">Создать пользователя</button>
+                <p>
+                    User authorized with id: {{user.user_id}}
+                </p>
+                <button ng-if="user" class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="editUser()" type="submit">Редактировать пользователя</button>
                 <p class="mt-3 mb-0"><a class="text-info small  mainColor" href="#/remember">Забыли Логин или Пароль?</a></p>
             </div>
         </div>
