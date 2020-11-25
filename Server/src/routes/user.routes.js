@@ -69,7 +69,7 @@ router.get(
             config.get("jwtsecret"),
             { expiresIn: '1w' }
          );
-
+		 response.cookie('token',token)
          response.json({ token, user: user });
       } catch(e) {
          response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
