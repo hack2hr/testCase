@@ -19,7 +19,6 @@ export const db = {
          const queryString = `INSERT INTO ${table}(${Object.keys(data).join(', ')}) VALUES (${
             Object.keys(data).map((key) => `:${key}`).join(', ')
          }) RETURNING *`;
-         console.log(queryString);
          return wrapSql(queryString, data);
       }
    }
