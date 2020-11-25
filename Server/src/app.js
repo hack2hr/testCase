@@ -1,16 +1,17 @@
 ﻿const express = require("express");
 const {Client} = require('pg');
-const {errorControl} = require('./utils.js');
+import {errorControl} from './utils';
 var config = require('config');
 const sql = require('yesql').pg;
-const hostname = '10.0.0.6';
+const http = require('http');
+const https = require('https');
+
+// const hostname = '10.0.0.6';
 // FOR LOCAL
-// const hostname = '127.0.0.1';
+const hostname = '127.0.0.1';
 const port = 8080;
 var client = null;
 const app = express();
-const http = require('http');
-const https = require('https');
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -28,7 +29,6 @@ function getFromConfig(query) {
     if (config.has(query)) {
         return config.get(query);
     }
-
     throw new Error('Error getting from config')
 }
 
@@ -217,10 +217,6 @@ app.get('/api/user/login', jsonParser, function(request, response) {
 //     });
 // });
 //
-
-app.get('/api/test', function(request, response) {
-    response.send('test successfull');
-});
 
 
 /*server start */
