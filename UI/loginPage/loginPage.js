@@ -39,11 +39,8 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
     }
 
     $scope.editUser = function (){
-        if($scope.user){
-            userService.editUser($scope.user).then(function (){
-
-            })
-        }
+        userService.editUserModal($scope.user).then(function (){
+        })
     }
 
     function tryDigest() {

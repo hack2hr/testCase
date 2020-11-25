@@ -268,11 +268,9 @@ services.factory('userService', function ($http, $uibModal, $sce, $q, $rootScope
         return modalInstance.result;
     };
 
-    service.addUserModal = function (user) {
+    service.addUser = function (user) {
         var deferred = $q.defer();
-        $http.get(ipAdress + "/api/user/add?login="+user.login+"&password="+user.password+"&role="+user.role
-            +"&firstname="+user.firstname+"&lastname="+user.lastname+"&surname="+user.surname+"&company="+user.company
-            +"&department="+user.department+"&position="+user.position+"&document="+user.document).success(function (response) {
+        $http.post(ipAdress + "/api/user/add", user).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in getTestRequest in mainService function');
@@ -282,9 +280,7 @@ services.factory('userService', function ($http, $uibModal, $sce, $q, $rootScope
 
     service.editUser = function (user) {
         var deferred = $q.defer();
-        $http.get(ipAdress + "/api/user/edit?login="+user.login+"&password="+user.password+"&role="+user.role
-            +"&firstname="+user.firstname+"&lastname="+user.lastname+"&surname="+user.surname+"&company="+user.company
-            +"&department="+user.department+"&position="+user.position+"&document="+user.document).success(function (response) {
+        $http.post(ipAdress + "/api/user/edit", user).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in getTestRequest in mainService function');
@@ -308,7 +304,7 @@ services.factory('userService', function ($http, $uibModal, $sce, $q, $rootScope
 
 
 
-myApp.factory('mainService', function ($http, $window, $q, $location, $rootScope, $sce, infoService) {
+myApp.factory('mainService', function ($http, $window, $q) {
 
     var service = {};
 

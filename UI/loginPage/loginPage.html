@@ -6,13 +6,15 @@
                 <form>
                     <div class="form-group">
                         <label class="text-secondary mainColor">Логин</label>
-                        <input class="form-control" type="text" required="" ng-model="login" ng-class="{'ng-invalids':!login && isLoginError}">
+                        <input class="form-control" type="text"  ng-model="login" ng-class="{'ng-invalids':!login && isLoginError}">
                     </div>
                     <div class="form-group">
                         <label class="text-secondary mainColor">Пароль</label>
-                        <input class="form-control" type="password" ng-model="password" ng-class="{'ng-invalids':!password && isLoginError}" required="">
+                        <input class="form-control" type="password" ng-model="password" ng-class="{'ng-invalids':!password && isLoginError}"  >
                     </div>
                     <button class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="auth()" type="submit">Войти</button>
+
+                    <br>
                     <button class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="createUser()" type="submit">Создать пользователя</button>
                     <p>
                      User authorized with id: {{user.userId}}
