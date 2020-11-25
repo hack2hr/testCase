@@ -7,16 +7,16 @@ export default (request, response, next) => {
    }
 
    try {
-      const token = request.headers.authorization.split(' ')[1]; // "Bearer TOKEN"
+      const token = request.cookies['token'];
 
       if (!token) {
-         return response.status(401).json({ message: 'Нет авторизации' });
+         return response.status(401).json({ message: 'Вы не авторизованы' });
       }
 
       const decoded = jwt.verify(token, config.get('jwtsecret'));
       request.user = decoded;
       next();
    } catch(e) {
-      response.status(401).json({ message: 'Нет авторизации' });
+      response.status(401).json({ message: 'Вы не авторизованы' });
    }
 };

@@ -8,39 +8,6 @@ const sql = require('yesql').pg;
 import auth from '../middleware/auth.middleware';
 const router = Router();
 
-// /api/user/add
-// router.post(
-//    '/add',
-//    [auth],
-//    async (request, response) => {
-//       try {
-//          const errors = validationResult(request);
-//
-//          if (!errors.isEmpty()) {
-//             return response.status(400).json({
-//                error: errors.array(),
-//                message: 'Некорректные данные при регистрации'
-//             })
-//          }
-//
-//          const {email, password} = request.body;
-//          const candidate = await User.findOne({ email });
-//
-//          if (candidate) {
-//             return response.status(400).json({ message: "Такой пользователь уже существует" });
-//          }
-//
-//          const hashedPassword = await bcrypt.hash(password, 12);
-//          const user = new User({ email, password: hashedPassword });
-//
-//          await user.save();
-//
-//          response.status(201).json({ message: "Пользователь создан" });
-//       } catch(e) {
-//          response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
-//       }
-//    });
-
 // /api/user/login
 router.get(
    '/login',
@@ -48,13 +15,9 @@ router.get(
       try {
          const {login, password} = request.query;
          const client = request.client;
-         const getUserByLogin = sql(
-            'SELECT u.* ' +
-            'FROM Users as u ' +
-            'WHERE u.login = :login')({
-            login, password
-         });
-         const user = await client.query(getUserByLogin).then(db.getOne)
+         const user = await client.query(
+            db.queries.getByField('Users', 'login', login)
+         ).then(db.getOne);
 
          if (!user) {
             return response.status(400).json({ message: 'Пользователь не найден' });
@@ -70,10 +33,62 @@ router.get(
             { expiresIn: '1w' }
          );
 
-         response.json({ token, user: user });
+         response.cookie('token', token);
+         response.json({ token, user });
       } catch(e) {
          response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
       }
    });
+
+// /api/user/getUserByToken
+router.get(
+   '/getUserByToken',
+   async (request, response) => {
+      try {
+         const {token} = request.query;
+         const decoded = jwt.verify(token, config.get('jwtsecret'));
+
+         const user = await request.client.query(
+            db.queries.getByField('Users', 'user_id', decoded.userId)
+         ).then(db.getOne);
+
+         if (!user) {
+            return response.status(400).json({ message: 'Пользователь не найден' });
+         }
+
+         response.json({ user });
+      } catch(e) {
+         response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
+      }
+   });
+
+// /api/user/add
+router.post(
+   '/add',
+   auth,
+   async (request, response) => {
+      try {
+         const {
+            login, role, password, firstname, lastname, surname, company, department, position
+         } = request.body;
+
+         const candidate = await request.client.query(
+            db.queries.getByField('Users', 'login', login)
+         ).then(db.getOne);
+
+         if (candidate) {
+            return response.status(400).json({ message: "Такой пользователь уже существует" });
+         }
+
+         const user = await request.client.query(db.queries.insert('Users', {
+            login, role, password, firstname, lastname, surname, company, department, position
+         })).then(db.getOne);
+
+         response.status(201).json({ message: "Пользователь создан", userId: user['user_id'] });
+      } catch(error) {
+         response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error });
+      }
+   });
+
 
 module.exports = router;
