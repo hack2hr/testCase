@@ -1,8 +1,6 @@
 ﻿const express = require("express");
 const {Client} = require('pg');
-import {errorControl} from './utils';
 var config = require('config');
-const sql = require('yesql').pg;
 const http = require('http');
 const https = require('https');
 
@@ -12,6 +10,10 @@ const hostname = '127.0.0.1';
 const port = 8080;
 var client = null;
 const app = express();
+const saveClient = (req, res, next) => {
+    req.client = client;
+    next();
+};
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,8 +23,10 @@ app.use(function (req, res, next) {
     next();
 });
 
-// создаем парсер для данных в формате json
-const jsonParser = express.json();
+app.use(express.json({ extended: true }));
+app.use(saveClient);
+app.use('/api/user/', require('./routes/user.routes'));
+
 // // FOR LOCAL
 
 function getFromConfig(query) {
@@ -101,22 +105,22 @@ function connectToDataBase() {
 
 /* API */
 /*среднее время очереди личного кабинета*/
-app.get('/api/user/login', jsonParser, function(request, response) {
-    const {login, password} = request.query;
-    const queryString = sql(
-       'SELECT u.* ' +
-       'FROM Users as u ' +
-       'WHERE u.login = :login AND u.password = :password')({
-        login, password
-    });
-
-    client
-       .query(queryString)
-       .then(res => {
-           response.send(res.rows);
-       })
-       .catch(errorControl);
-});
+// app.get('/api/user/login', jsonParser, function(request, response) {
+//     const {login, password} = request.query;
+//     const queryString = sql(
+//        'SELECT u.* ' +
+//        'FROM Users as u ' +
+//        'WHERE u.login = :login AND u.password = :password')({
+//         login, password
+//     });
+//
+//     client
+//        .query(queryString)
+//        .then(res => {
+//            response.send(res.rows);
+//        })
+//        .catch(errorControl);
+// });
 
 // app.get("/api/getDiagram", jsonParser, function (request, response) {
 //     dbo.collection(dgtuCollection).find({}).toArray(function (err, results) {
