@@ -4,9 +4,9 @@ var config = require('config');
 const http = require('http');
 const https = require('https');
 
-// const hostname = '10.0.0.6';
+ const hostname = '10.0.0.6';
 // FOR LOCAL
-const hostname = '127.0.0.1';
+//const hostname = '127.0.0.1';
 const port = 8080;
 var client = null;
 const app = express();
@@ -15,11 +15,24 @@ const saveClient = (req, res, next) => {
     next();
 };
 
+const ALLOWED_ORIGINS = [
+  'http://168.63.58.52:80',
+  'http://localhost:63342',
+  'http://ksutechrosset.northeurope.cloudapp.azure.com'
+]
+
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+	if(ALLOWED_ORIGINS.indexOf(req.headers.origin) > -1) {
+		res.set('Access-Control-Allow-Credentials', 'true')
+		res.set('Access-Control-Allow-Origin', req.headers.origin)
+	} else { // разрешить другим источникам отправлять неподтвержденные запросы CORS
+		res.set('Access-Control-Allow-Origin', '*')        
+	}
+	
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, x-ijt');
-    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, x-ijt, include');
+ 
+ 
     next();
 });
 

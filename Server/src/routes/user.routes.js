@@ -48,6 +48,7 @@ router.get(
       try {
          const {login, password} = request.query;
          const client = request.client;
+		 //console.log(login, password)
          const getUserByLogin = sql(
             'SELECT u.* ' +
             'FROM Users as u ' +
@@ -55,7 +56,7 @@ router.get(
             login, password
          });
          const user = await client.query(getUserByLogin).then(db.getOne)
-
+		 //console.log(user)
          if (!user) {
             return response.status(400).json({ message: 'Пользователь не найден' });
          }
@@ -71,9 +72,22 @@ router.get(
          );
 		 response.cookie('token',token)
          response.json({ token, user: user });
+		
       } catch(e) {
          response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
       }
    });
-
+   
+router.get(
+   '/getUserByToken',
+   async (request, response) => {
+      try {
+         const token = request.cookie('token');
+		 console.log(token)
+         response.json({ token, token });
+		
+      } catch(e) {
+         response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
+      }
+ });
 module.exports = router;
