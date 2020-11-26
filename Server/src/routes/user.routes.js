@@ -41,7 +41,7 @@ router.get(
 router.get(
    '/getUserByToken',
    wrapResponse(async (request, response) => {
-      const token = request.cookie['token'];
+      const token = request.headers.authorization;
       if (!token) {
          throw 'Пользователь не был автризован';
       }
