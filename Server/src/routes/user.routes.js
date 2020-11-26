@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const jwt = require('jsonwebtoken');
-import {db, getFromConfig, wrapResponse} from '../utils';
+import {db, getFromConfig, wrapResponse, wrapAccess} from '../utils';
 import auth from '../middleware/auth.middleware';
 const router = Router();
 
@@ -56,7 +56,7 @@ router.get(
 // /api/user/add
 router.post(
    '/add',
-   auth,
+   wrapAccess(auth, getFromConfig('access.user.add')),
    wrapResponse(async (request, response) => {
       const {
          login, role, password, firstname, lastname, surname, company, department, position

@@ -12,6 +12,7 @@ export const getFromConfig = (query) => {
    throw new Error(`Error getting "${query}" from config`);
 }
 
+// WRAPPERS
 export const wrapSql = (queryString, data) => sql(queryString)(data);
 export const wrapResponse = (func) => {
    return (request, response, next) => {
@@ -22,7 +23,13 @@ export const wrapResponse = (func) => {
       }
    }
 };
+export const wrapAccess = (func, accessArray) => {
+   return (request, response, next) => {
+      func(request, response, next, accessArray);
+   };
+};
 
+// DB HELPERS
 export const db = {
    getOne: (result) => result.rows?.[0],
    queries: {
