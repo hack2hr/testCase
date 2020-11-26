@@ -41,11 +41,6 @@ myApp.config(function ($routeProvider) {
             controller: 'MainPageCtrl',
             resolve: UserResolve
         })
-        .when('/manage', {
-            templateUrl: 'manage/manage.html',
-            controller: 'ManageCtrl',
-            resolve: UserResolve
-        })
         .when('/notFound404', {
             templateUrl: 'notFound404/404.html',
         })
@@ -61,6 +56,7 @@ myApp.config(function ($routeProvider) {
         .when('/profile', {
             templateUrl: 'profile/profile.html',
             controller: 'ProfileCtrl',
+            resolve: UserResolve
         })
 
 });
@@ -98,6 +94,7 @@ myApp.controller('UserCtrl', function ($scope, $rootScope, userService) { //эт
     $scope.logOut = function(){
         userService.deleteTokenFromCookie();
         $scope.user = $rootScope.user = null;
+        userService.redirectTo("login")
         tryDigest();
     };
 

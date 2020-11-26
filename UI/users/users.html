@@ -1,5 +1,7 @@
-
-<div class="container-fluid" style="margin-top: 80px;margin-left: 300px;width: 1581px;height: 958px;">
+<div class="container-fluid p-3" ng-show="!user || !user.user_id">
+    <div>Недостаточно учетных данных <a href="#/login">Войти</a> </div>
+</div>
+<div ng-show="user && user.user_id" class="container-fluid">
     <div class="row" style="margin-bottom: 19px;">
         <div class="col-8 d-xl-flex justify-content-between align-items-xl-center">
             <h1 style="font-family: Montserrat, sans-serif;">Пользователи</h1><button class="btn" type="button" style="height: 55px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;width: 257px;">

@@ -224,25 +224,26 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         var defered = $q.defer();
         var token = service.getCookieByName("token");
         if(token){ //if user exits then retry login
-            if(!service.User) {
+            if(!service.User && !service.User.user_id) {
                 service.getUserByToken(token).then(function (response) {
                     if (response && response.user) {
                         service.User = response.user;
                         $rootScope.$broadcast('user:isActive', true);
                     } else {
                         service.User = null;
+                        service.redirectTo("login");
                         $rootScope.$broadcast('user:isActive', true);
                         console.log(response.message);
                     }
                 }, function () {
                     service.User = null;
+                    service.redirectTo("login");
                     $rootScope.$broadcast('user:isActive', true);
                 });
-            } else {
-                $rootScope.$broadcast('user:isActive', true);
             }
         } else {
             service.redirectTo("login");
+            $rootScope.$broadcast('user:isActive', true);
         }
         tryDigest();
         defered.resolve(true);
