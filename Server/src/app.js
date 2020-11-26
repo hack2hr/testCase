@@ -4,9 +4,7 @@ const http = require('http');
 const https = require('https');
 import {getFromConfig} from './utils';
 
-//  const hostname = '10.0.0.6';
-// FOR LOCAL
-// const hostname = '127.0.0.1';
+const hostname = process.env.IP_ADDRESS || '10.0.0.6';
 const port = 8080;
 var client = null;
 const app = express();
@@ -49,5 +47,5 @@ function connectToDataBase() {
 
 /*server start */
 app.listen(port, hostname, () => {
-    console.log(`Server running at http://${process.env.IP_ADDRESS || '10.0.0.6'}:${port}/`);
+    console.log(`Server running at http://${hostname}:${port}/`);
 });
