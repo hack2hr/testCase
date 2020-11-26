@@ -2,6 +2,7 @@ const {Router} = require('express');
 const jwt = require('jsonwebtoken');
 import {db, getFromConfig, wrapResponse, wrapAccess, defaultError} from '../utils';
 import auth from '../middleware/auth.middleware';
+import access from './../access';
 const router = Router();
 
 /******************************   ПОЛЬЗОВАТЕЛИ   **********************************/
@@ -57,13 +58,13 @@ router.get(
          return response.status(400).json({ message: 'Пользователь не найден' });
       }
 
-      response.json({ user });
+      response.json({ user: user });
    }));
 
-// /api/user/getAllUsers
+// /api/user/getAll
 router.get(
-   '/getAllUsers',
-   wrapAccess(auth, getFromConfig('access.user.getAllUsers')),
+   '/getAll',
+   wrapAccess(auth, access.user.getAll),
    wrapResponse(async (request, response) => {
       const allUsers = await request.client.query(
          db.queries.getByFields('users')
@@ -75,14 +76,14 @@ router.get(
 // /api/user/add
 router.post(
    '/add',
-   wrapAccess(auth, getFromConfig('access.user.add')),
+   wrapAccess(auth, access.user.add),
    wrapResponse(async (request, response) => {
       const {
          login, role, password, firstname, lastname, surname, company, department, position
       } = request.body;
 
       const candidate = await request.client.query(
-         db.queries.getByFields('Users', { login })
+         db.queries.getByFields('users', { login })
       ).then(db.getOne).catch((e) => handleDefault(response, e));
 
       if (candidate) {
@@ -96,19 +97,28 @@ router.post(
       response.status(201).json({ message: "Пользователь создан", userId: user['user_id'] });
    }));
 
-
-/******************************   РОЛИ   **********************************/
-
-// /api/user/getAllUserRoles
-router.get(
-   '/getAllUserRoles',
-   wrapAccess(auth, getFromConfig('access.user.getAllUserRoles')),
+// /api/user/edit
+router.post(
+   '/edit',
+   wrapAccess(auth, access.user.edit),
    wrapResponse(async (request, response) => {
-      const roles = await request.client.query(
-         db.queries.getByFields('users_roles')
-      ).then(db.getAll).catch((e) => handleDefault(response, e));
+      const {
+         login, role, password, firstname, lastname, surname, company, department, position
+      } = request.body;
 
-      response.json({ roles });
+      const candidate = await request.client.query(
+         db.queries.getByFields('users', { login })
+      ).then(db.getOne).catch((e) => handleDefault(response, e));
+
+      if (candidate) {
+         return response.status(400).json({ message: "Такой пользователь уже существует" });
+      }
+
+      const user = await request.client.query(db.queries.insert('users', {
+         login, role, password, firstname, lastname, surname, company, department, position
+      })).then(db.getOne).catch((e) => handleDefault(response, e));
+
+      response.status(201).json({ message: "Пользователь создан", userId: user['user_id'] });
    }));
 
 module.exports = router;
