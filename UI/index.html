@@ -28,61 +28,32 @@
     <link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.css">
     <link rel="stylesheet" href="bower_components/radar/Chart.css">
     <link rel="stylesheet" href="assets/styles.min.css">
+    <link rel="stylesheet" href="bower_components/kanban/jkanban.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 </head>
 
 <body class="ng-cloak" id="page-top">
 <div id="wrapper" ng-controller="UserCtrl">
-   <!-- <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" ng-class="{toggled: isToggled}">
-        <div class="container-fluid d-flex flex-column p-0">
-            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#" style="width: 100%;">
-                <div class="sidebar-brand-text mx-3"><span>БТР Nova</span></div>
-            </a>
-            <hr class="sidebar-divider my-0">
-            <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                <li class="nav-item" role="presentation"><a class="nav-link active" href="#/main"><i class="fas fa-tachometer-alt"></i><span>Главная страница</span></a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link active" href="#/users"><i class="fas fa-user-alt"></i><span>Пользователи</span></a></li>
-                &lt;!&ndash; <li class="nav-item" role="presentation"><a class="nav-link active" href="#/manage"><i class="fas fa-database"></i><span>Внесение данных</span></a></li>&ndash;&gt;
-            </ul>
-            <div class="text-center d-none d-md-inline"><button ng-click="isToggled=!isToggled" class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
-        </div>
-    </nav>-->
-
-        <!--<nav class="navbar navbar-light navbar-expand bg-white topbar static-top pl-0" >
-            <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
-                <form class="form-inline d-none d-sm-inline-block mr-auto   my-2 my-md-0 mw-100 navbar-search border rounded">
-                    <div style="margin-left: 15px;" class="input-group"> <i class="fas fa-search align-self-center"></i><input class="bg-white form-control border-0 small" style="background-color: white" type="text" placeholder="Поиск..."></div>
-                </form>
-                <ul class="nav navbar-nav flex-nowrap ml-auto">
-                    <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href=""><i class="fas fa-search"></i></a>
-                        <div class="dropdown-menu dropdown-menu-right p-3 animated&#45;&#45;grow-in" role="menu" aria-labelledby="searchDropdown">
-                            <form class="form-inline mr-auto navbar-search w-100 border-">
-                                <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Поиск...">
-                                    <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
-                                </div>
-                            </form>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown no-arrow" role="presentation"  ng-if="user">
-                        <div class="nav-item dropdown no-arrow">
-                            <div class="d-inline">
-                                <span class="d-none d-inline mr-2 text-gray-600 small">{{user.lastName +" "+ user.firstName}}</span>
-                                <a class="dropdown-item d-inline p-0" role="presentation" ng-click="logOut()" href="#/login"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Выйти</a>
-                                <img class="border d-inline rounded-circle img-profile mr-2" ng-src="{{user.isAdmin?'assets/img/avatars/avatar2.jpeg':'assets/img/avatars/avatar1.jpeg'}}"/>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="nav-item dropdown no-arrow" role="presentation" ng-if="!user">
-                        <div class="nav-item dropdown no-arrow">
-                            <div>
-                                <a class="btn-outline-primary btn" role="presentation" href="#/login">Войти</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+    <nav ng-show="user && user.user_id" class="navbar fixed-top navbar-dark bg-dark off-canvas" data-right-drawer="0" data-open-drawer="1" style="height: 100vh;width: 250px !important;background: rgb(255,255,255);">
+        <div class="container-fluid flex-column">
+            <div class="d-flex flex-column justify-content-between justify-content-xl-center align-items-xl-center brand-line" style="margin-top: 70px;margin-left: -23px;"><img class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;">
+                <p style="color: #0D1C2E;">Paragraph</p>
             </div>
-        </nav>-->
-        <div ng-view class="theme-showcase" id="content-wrapper" role="main" style="background-color: #F8F8FB; "></div>
+            <ul class="nav navbar-nav flex-column drawer-menu" style="margin-top: 45px;">
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#/main" style="margin-bottom: 30px;color: #707C97;"><i class="fab fa-buromobelexperte" style="margin-right: 20px;"></i>ГЛАВНАЯ</a></li>
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#/chat" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-user" style="margin-right: 20px;"></i>ЧАТ</a></li>
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#/users" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-comment" style="margin-right: 18px;"></i>ПОЛЬЗОВАТЕЛИ</a></li>
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#/kanban" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-clipboard" style="margin-right: 22px;"></i>КАНБАН</a></li>
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#/settings" style="color: #707C97;"><i class="fa fa-star" style="margin-right: 19px;"></i>НАСТРОЙКИ</a></li>
+            </ul>
+            <ul class="nav navbar-nav flex-column bottom-nav" style="margin-bottom: 25px;margin-left: 20px;">
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="" ng-click="logOut()" style="color: #707C97;"><i class="fas fa-power-off" style="margin-right: 20px;"></i>ВЫЙТИ</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div ng-view class="theme-showcase" ng-style="{'margin-left': (user && user.user_id) ? '260px':'unset'}" id="content-wrapper" role="main" style="background-color: #F8F8FB;"></div>
 
 </div>
 <!--<div class="d-contents bg-white sticky-footer" ng-include="'footer.html'"></div>-->
@@ -95,7 +66,7 @@
 <script src="bower_components/jquery/jquery.blockUI.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/bootstrap/md.js"></script>
-
+<script src="bower_components/kanban/jkanban.js"></script>
 
 <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
@@ -111,7 +82,6 @@
 <script src="loginPage/loginPage.js?1.4"></script>
 <script src="mainPage/mainPage.js?1.4"></script>
 <script src="services.js?1.4"></script>
-<script src="manage/manage.js?1.4"></script>
 <script src="users/users.js?1.4"></script>
 <script src="profile/profile.js?1.4"></script>
 <!--modal windows-->

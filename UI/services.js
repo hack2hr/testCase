@@ -215,19 +215,64 @@ services.filter('orderObjectBy', function () {
 });
 
 
-services.factory('userService', function ($http, $uibModal, $sce, $q, $rootScope ) {
+services.factory('userService', function ($location, $http, $uibModal, $sce, $q, $rootScope ) {
     var service = {};
+
+    service.User = {};
 
     service.resolveCheck = function(){
         var defered = $q.defer();
-        var localUser = localStorage.getItem("user");
-        if(localUser){
-            $rootScope.$broadcast('user:isActive',true);
-            $rootScope.user = JSON.parse(localUser);
+        var token = service.getCookieByName("token");
+        if(token){ //if user exits then retry login
+            if(!service.User && !service.User.user_id) {
+                service.getUserByToken(token).then(function (response) {
+                    if (response && response.user) {
+                        service.User = response.user;
+                        $rootScope.$broadcast('user:isActive', true);
+                    } else {
+                        service.User = null;
+                        service.redirectTo("login");
+                        $rootScope.$broadcast('user:isActive', true);
+                        console.log(response.message);
+                    }
+                }, function () {
+                    service.User = null;
+                    service.redirectTo("login");
+                    $rootScope.$broadcast('user:isActive', true);
+                });
+            }
+        } else {
+            service.redirectTo("login");
+            $rootScope.$broadcast('user:isActive', true);
         }
         tryDigest();
         defered.resolve(true);
         return defered.promise;
+    }
+
+    service.redirectTo = function(redirectTo){
+        $location.path('/'+redirectTo);
+    }
+
+     service.setCookie = function(name,value,expiration){
+        var expires = "";
+        if (expiration) {
+            var date = new Date(expiration);
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/ ;"
+        //document.cookie = name + "=" + (value || "")  + expires + "; path=/ ;domain=localhost";
+    }
+
+    service.getCookieByName  = function (name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+        else return null;
+    }
+
+    service.deleteTokenFromCookie  = function(){
+        document.cookie = "token=''; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/; ";
     }
 
     function tryDigest() {
@@ -290,9 +335,9 @@ services.factory('userService', function ($http, $uibModal, $sce, $q, $rootScope
     };
 
 
-    service.getUserByToken = function (token) {
+    service.getUserByToken = function () {
         var deferred = $q.defer();
-        $http.get(ipAdress + "/api/user/getUserByToken?token="+token).success(function (response) {
+        $http.get(ipAdress + "/api/user/getUserByToken").success(function (response) {
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in getUserByToken in mainService function');
@@ -314,7 +359,22 @@ services.factory('userService', function ($http, $uibModal, $sce, $q, $rootScope
     return service;
 });
 
+myApp.factory('userProfile', function ($http, $window, $q) {
 
+    var service = {};
+
+    service.getUserInfo = function (userId) {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/userProfile/getUserInfo?userId="+userId ).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getUserInfo in userProfile function');
+        });
+        return deferred.promise;
+    };
+
+    return service;
+});
 
 myApp.factory('mainService', function ($http, $window, $q) {
 

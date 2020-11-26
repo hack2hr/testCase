@@ -1,22 +1,29 @@
 const jwt = require('jsonwebtoken');
-const config = require('config');
+import {getFromConfig} from './../utils';
 
-export default (request, response, next) => {
+export default (request, response, next, accessArray) => {
    if (request.method === 'OPTIONS') {
       return next();
    }
 
    try {
-      const token = request.headers.authorization.split(' ')[1]; // "Bearer TOKEN"
+      const token = request.cookies['token'];
+      // const token = request.query.token;
 
       if (!token) {
-         return response.status(401).json({ message: 'Нет авторизации' });
+         return response.status(401).json({ message: 'Вы не авторизованы' });
       }
 
-      const decoded = jwt.verify(token, config.get('jwtsecret'));
+      const decoded = jwt.verify(token, getFromConfig('jwtsecret'));
       request.user = decoded;
+
+      // ПРОВЕРКА ПРАВ
+      if (!accessArray.includes(request.user.role)) {
+         return response.status(403).json({ message: 'У вас нет доступа к этому действию' })
+      }
+
       next();
    } catch(e) {
-      response.status(401).json({ message: 'Нет авторизации' });
+      response.status(401).json({ message: 'Вы не авторизованы' });
    }
 };

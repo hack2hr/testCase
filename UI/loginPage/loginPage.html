@@ -21,7 +21,9 @@
                 <p>
                     User authorized with id: {{user.user_id}}
                 </p>
-                <button ng-if="user" class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="editUser()" type="submit">Редактировать пользователя</button>
+                <button ng-if="user.user_id" class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="editUser()" type="submit">Редактировать пользователя</button>
+                <button class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="infoModal()" type="submit">Модалка инфо</button>
+                <button class="btn btn-info px-3 py-2 ml-0 rounded mainColor" ng-click="confirm()" type="submit">Модалка подтверждение</button>
                 <p class="mt-3 mb-0"><a class="text-info small  mainColor" href="#/remember">Забыли Логин или Пароль?</a></p>
             </div>
         </div>
