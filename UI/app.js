@@ -65,22 +65,21 @@ myApp.config(function ($routeProvider) {
 
 });
 
-myApp.controller('UserCtrl', function ($scope, $rootScope) { //это контроллер , он ставится в шаблоне html ng-controller="UserCtrl" - и отвечает за видимость внутри вложенных dom элементов старницы
+myApp.controller('UserCtrl', function ($scope, $rootScope, userService) { //это контроллер , он ставится в шаблоне html ng-controller="UserCtrl" - и отвечает за видимость внутри вложенных dom элементов старницы
     $scope.isToggled = true;
-    var localUser = localStorage.getItem("user"); //todo в будущем не будет пользователя будет куки и токен
-    if(localUser){
-        $rootScope.user = JSON.parse(localUser);
-        $scope.user = $rootScope.user;
+
+    if(userService.User){
+        $scope.user = userService.User;
     }
+
     tryDigest();
     $scope.$on('user:isActive', function() {
-        var localUser = localStorage.getItem("user"); //todo в будущем не будет пользователя будет куки и токен
-        if(localUser){
-            $rootScope.user = JSON.parse(localUser);
-            $scope.user = $rootScope.user;
+        if(userService.User){
+            $scope.user = userService.User;
         }
         tryDigest();
     });
+
     $scope.openDD = function (selectedTab) {
         $('#' + selectedTab + 'Li .dropdown-menu').css({
             'display': 'unset'
@@ -97,12 +96,12 @@ myApp.controller('UserCtrl', function ($scope, $rootScope) { //это контр
         $('.dropdown-menu').slideUp(0);
     }
     $scope.logOut = function(){
-        localStorage.clear();
+        userService.deleteTokenFromCookie();
         $scope.user = $rootScope.user = null;
         tryDigest();
-    }
+    };
+
     $scope.setSelectedTabInTab = function (value) {
-        //$scope.selectedTabChoise = true;
         $scope.selectedTabInTab = value;
         $scope.openDropDowns = false;
         $('.dropdown-menu').stop().slideUp(0);

@@ -4,6 +4,63 @@ var mainPage = angular.module('myApp.mainPage', ['ngRoute']);
 
 mainPage.controller('MainPageCtrl', function ($scope, mainService,  $rootScope) {
 
+    var boards = [
+        {
+            id: "_todo",
+            title: "To Do (Can drop item only in working)",
+            class: "info,good",
+            dragTo: ["_working"],
+            item: [
+                {
+                    id: "_test_delete",
+                    title: "Try drag this (Look the console)",
+                    drag: function(el, source) {
+                        console.log("START DRAG: " + el.dataset.eid);
+                    },
+                    dragend: function(el) {
+                        console.log("END DRAG: " + el.dataset.eid);
+                    },
+                    drop: function(el) {
+                        console.log("DROPPED: " + el.dataset.eid);
+                    }
+                },
+                {
+                    title: "Try Click This!",
+                    click: function(el) {
+                        alert("click");
+                    },
+                    class: ["peppe", "bello"]
+                }
+            ]
+        },
+        {
+            id: "_working",
+            title: "Working (Try drag me too)",
+            class: "warning",
+            item: [
+                {
+                    title: "Do Something!"
+                },
+                {
+                    title: "Run?"
+                }
+            ]
+        },
+        {
+            id: "_done",
+            title: "Done (Can drop item only in working)",
+            class: "success",
+            dragTo: ["_working"],
+            item: [
+                {
+                    title: "All right"
+                },
+                {
+                    title: "Ok!"
+                }
+            ]
+        }
+    ];
 
     var KanbanTest = new jKanban({
         element: "#myKanban",
@@ -42,63 +99,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService,  $rootScope) 
             };
         },
         addItemButton: true,
-        boards: [
-            {
-                id: "_todo",
-                title: "To Do (Can drop item only in working)",
-                class: "info,good",
-                dragTo: ["_working"],
-                item: [
-                    {
-                        id: "_test_delete",
-                        title: "Try drag this (Look the console)",
-                        drag: function(el, source) {
-                            console.log("START DRAG: " + el.dataset.eid);
-                        },
-                        dragend: function(el) {
-                            console.log("END DRAG: " + el.dataset.eid);
-                        },
-                        drop: function(el) {
-                            console.log("DROPPED: " + el.dataset.eid);
-                        }
-                    },
-                    {
-                        title: "Try Click This!",
-                        click: function(el) {
-                            alert("click");
-                        },
-                        class: ["peppe", "bello"]
-                    }
-                ]
-            },
-            {
-                id: "_working",
-                title: "Working (Try drag me too)",
-                class: "warning",
-                item: [
-                    {
-                        title: "Do Something!"
-                    },
-                    {
-                        title: "Run?"
-                    }
-                ]
-            },
-            {
-                id: "_done",
-                title: "Done (Can drop item only in working)",
-                class: "success",
-                dragTo: ["_working"],
-                item: [
-                    {
-                        title: "All right"
-                    },
-                    {
-                        title: "Ok!"
-                    }
-                ]
-            }
-        ]
+        boards:  boards
     });
 
     var toDoButton = document.getElementById("addToDo");

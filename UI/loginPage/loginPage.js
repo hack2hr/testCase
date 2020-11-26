@@ -14,15 +14,22 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
     }
 
     function getUserByToken(){
-        userService.getUserByToken().then(function(response){
-            if(response && response.token) {
-                $rootScope.user = response.user;
-                $scope.user = response.user;
-                localStorage.setItem("user", JSON.stringify(response));
-            } else {
-                infoService.infoFunction(response.message, "Ошибка")
-            }
-        });
+        if(!userService.User) {
+            userService.getUserByToken().then(function (response) {
+                if (response && response.user) {
+                    $scope.user = response.user;
+                    userService.User = $scope.user;
+                    $rootScope.$broadcast('user:isActive', true);
+                    userService.redirectTo("users");
+                } else {
+                    infoService.infoFunction(response.message, "Ошибка")
+                }
+            });
+        } else {
+            $scope.user = userService.User;
+            $rootScope.$broadcast('user:isActive', true);
+            userService.redirectTo("users");
+        }
     }
 
     $scope.auth = function(){
@@ -32,10 +39,10 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
                     var expiration = new Date();
                     expiration = new Date(expiration.setDate(expiration.getDate()+1));
                     userService.setCookie("token", response.token, expiration)
-                    $rootScope.user = response.user;
                     $scope.user = response.user;
-                    localStorage.setItem("user", JSON.stringify(response));
-
+                    userService.User = $scope.user;
+                    $rootScope.$broadcast('user:isActive', true);
+                    userService.redirectTo("users");
                 } else {
                     infoService.infoFunction(response.message, "Ошибка")
                 }

@@ -2,47 +2,50 @@
 
 var users = angular.module('myApp.users', ['ngRoute']);
 
-users.controller('UsersCtrl', function ($scope, userService) {
-    uploadUsers();
+users.controller('UsersCtrl', function ($scope, userService, infoService) {
 
-    function uploadUsers() {
+    getAllUsers();
+    function getAllUsers() {
         userService.getAllUsers().then(function (response) {
-            $scope.users = response;
+            if(response && response.users){
+                $scope.users = response.users;
+            } else {
+                infoService.infoFunction(response.message, "Ошибка")
+            }
         }, function(error) {
             console.error(error);
         });
     }
 
-
     $scope.deleteUser = function(user){
         userService.deleteUser({
-            '_id': user._id.$oid
+            'user_id': user.user_id
         }).then(function (result) {
             if (result) {
-                uploadUsers();
-            }
+                getAllUsers();
+            };
         }), function(error) {
-            console.error('UsersCtrl     deleteUser: ', error);
+            console.error('UsersCtrl deleteUser: ', error);
         };
-    }
+    };
 
     $scope.editUser = function(user){
         userService.editUserModal(user).then(function(result){
             if (result) {
-                uploadUsers();
+                getAllUsers();
             }
         }, function(error) {
-            console.error('UsersCtrl     editUserModal: ', error);
+            console.error('UsersCtrl editUserModal: ', error);
         })
     }
 
     $scope.addUserModal = function(){
         userService.addUserModal().then(function(result) {
             if (result) {
-                uploadUsers();
+                getAllUsers();
             }
         }, function(error) {
-            console.error('UsersCtrl     addUserModal: ', error);
+            console.error('UsersCtrl addUserModal: ', error);
         })
     }
 

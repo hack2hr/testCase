@@ -1,42 +1,13 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Rosset</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
-    <link rel="stylesheet" href="assets/css/styles.min.css">
-</head>
-
-<body style="position: relative;">
-    <nav class="navbar navbar-dark fixed-top bg-dark off-canvas" data-right-drawer="0" data-open-drawer="1" style="background: rgb(255,255,255);">
-        <div class="container-fluid flex-column">
-            <div class="d-flex flex-column justify-content-between justify-content-xl-center align-items-xl-center brand-line" style="margin-top: 70px;margin-left: -23px;"><img class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;">
-                <p style="color: #0D1C2E;">Paragraph</p>
-            </div>
-            <ul class="nav navbar-nav flex-column drawer-menu" style="margin-top: 45px;">
-                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="margin-bottom: 30px;color: #707C97;"><i class="fab fa-buromobelexperte" style="margin-right: 20px;"></i>ГЛАВНАЯ</a></li>
-                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-user" style="margin-right: 20px;"></i>ЧАТ</a></li>
-                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-comment" style="margin-right: 18px;"></i>ПОЛЬЗОВАТЕЛИ</a></li>
-                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-clipboard" style="margin-right: 22px;"></i>КАНБАН</a></li>
-                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="color: #707C97;"><i class="fa fa-star" style="margin-right: 19px;"></i>НАСТРОЙКИ</a></li>
-            </ul>
-            <ul class="nav navbar-nav flex-column bottom-nav" style="margin-bottom: 25px;margin-left: 20px;">
-                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="color: #707C97;"><i class="fas fa-power-off" style="margin-right: 20px;"></i>ВЫЙТИ</a></li>
-            </ul>
+<div class="container-fluid" style="margin-top: 80px;margin-left: 300px;width: 1581px;height: 958px;">
+    <div class="row" style="margin-bottom: 19px;">
+        <div class="col-8 d-xl-flex justify-content-between align-items-xl-center">
+            <h1 style="font-family: Montserrat, sans-serif;">Пользователи</h1><button class="btn" type="button" style="height: 55px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;width: 257px;">
+            <i class="fas fa-plus" style="margin-right: 9px;"></i>Новый пользователь</button>
         </div>
-    </nav>
-    <div class="container-fluid" style="margin-top: 80px;margin-left: 300px;width: 1581px;height: 958px;">
-        <div class="row" style="margin-bottom: 19px;">
-            <div class="col-8 d-xl-flex justify-content-between align-items-xl-center">
-                <h1 style="font-family: Montserrat, sans-serif;">Пользователи</h1><button class="btn" type="button" style="height: 55px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;width: 257px;"><i class="fas fa-plus" style="margin-right: 9px;"></i>Новый пользователь</button></div>
-            <div
-                class="col"></div>
+        <div class="col">
+
+        </div>
     </div>
     <div class="row" style="height: 92%;">
         <div class="col-8" style="margin-right: 24px;">
@@ -45,20 +16,45 @@
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
-                                <tr style="height: 65px;">
-                                    <th>Column 1</th>
-                                    <th>Column 2</th>
-                                </tr>
+                            <tr style="height: 65px;">
+                                <th class="pointer"></th>
+                                <th class="pointer">ФИО</th>
+                                <th class="pointer">Логин</th>
+                                <th class="pointer">Компания</th>
+                                <th class="pointer">Подразделение</th>
+                                <th class="pointer">Должность</th>
+                                <th class="pointer" ng-if="user.role == 1">Действие</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Cell 1</td>
-                                    <td>Cell 2</td>
-                                </tr>
-                                <tr>
-                                    <td>Cell 3</td>
-                                    <td>Cell 4</td>
-                                </tr>
+                            <tr ng-repeat="user in users">
+                                <td>{{$index+1}}</td>
+                                <td>
+                                    <span>{{user.lastname + ' ' + user.firstname + ' '+ user.surname}}</span>
+                                </td>
+                                <td>
+                                    <span>{{user.company}}</span>
+                                </td>
+                                <td>
+                                    <span>{{user.department}}</span>
+                                </td>
+                                <td>
+                                    <span>{{user.position}}</span>
+                                </td>
+                                <td  >
+                                    <div class="btn-group " ng-class="{'open': user.isOpenedEdit}">
+                                        <a ng-click="user.isOpenedEdit=!user.isOpenedEdit" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                                            <span class="fa fa-caret-down" title="Действия по пользователю"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href=""><i class="fa fa-pencil fa-fw"></i>Редактировать</a></li>
+                                            <li><a href=""><i class="fa fa-trash-o fa-fw"></i> Удалить</a></li>
+                                            <li class="divider"></li>
+                                            <li><a ng-click="user.isOpenedEdit=!user.isOpenedEdit" href=""><i class="fa fa-unlock"></i>Закрыть</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -73,7 +69,7 @@
                             <h4 class="card-title">Title</h4>
                             <h6 class="text-muted card-subtitle mb-2">Subtitle</h6>
                             <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><a class="card-link" href="#">Link</a><a class="card-link"
-                                href="#">Link</a></div>
+                                                                                                                                                                                                                                                                   href="#">Link</a></div>
                     </div>
                 </div>
             </div>
@@ -84,16 +80,10 @@
                             <h4 class="card-title">Title</h4>
                             <h6 class="text-muted card-subtitle mb-2">Subtitle</h6>
                             <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><a class="card-link" href="#">Link</a><a class="card-link"
-                                href="#">Link</a></div>
+                                                                                                                                                                                                                                                                   href="#">Link</a></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
-</body>
-
-</html>
+</div>

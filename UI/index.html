@@ -29,6 +29,9 @@
     <link rel="stylesheet" href="bower_components/radar/Chart.css">
     <link rel="stylesheet" href="assets/styles.min.css">
     <link rel="stylesheet" href="bower_components/kanban/jkanban.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 </head>
 
 <body class="ng-cloak" id="page-top">
@@ -47,6 +50,26 @@
             <div class="text-center d-none d-md-inline"><button ng-click="isToggled=!isToggled" class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
         </div>
     </nav>-->
+    <nav class="navbar navbar-dark fixed-top bg-dark off-canvas" data-right-drawer="0" data-open-drawer="1" style="background: rgb(255,255,255);">
+        <div class="container-fluid flex-column">
+            <div class="d-flex flex-column justify-content-between justify-content-xl-center align-items-xl-center brand-line" style="margin-top: 70px;margin-left: -23px;"><img class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;">
+                <p style="color: #0D1C2E;">Paragraph</p>
+            </div>
+            <ul class="nav navbar-nav flex-column drawer-menu" style="margin-top: 40px;">
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="margin-bottom: 30px;color: #707C97;"><i class="fab fa-buromobelexperte" style="margin-right: 20px;"></i>ГЛАВНАЯ</a></li>
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-user" style="margin-right: 20px;"></i>ЧАТ</a></li>
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-comment" style="margin-right: 18px;"></i>ПОЛЬЗОВАТЕЛИ</a></li>
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-clipboard" style="margin-right: 22px;"></i>КАНБАН</a></li>
+                <li class="nav-item" style="margin-left: 20px;"><a class="nav-link active" href="#" style="color: #707C97;"><i class="fa fa-star" style="margin-right: 19px;"></i>НАСТРОЙКИ</a></li>
+            </ul>
+            <ul class="nav navbar-nav flex-column bottom-nav" style="margin-bottom: 25px;margin-left: 15px;">
+                <li class="nav-item" style="margin-left: 20px;">
+                    <a class="nav-link active" href="" ng-click="logOut()" style="color: #707C97;">
+                    <i class="fas fa-power-off" style="margin-right: 20px;"></i>ВЫЙТИ</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
         <!--<nav class="navbar navbar-light navbar-expand bg-white topbar static-top pl-0" >
             <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>

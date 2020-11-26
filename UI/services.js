@@ -218,12 +218,24 @@ services.filter('orderObjectBy', function () {
 services.factory('userService', function ($location, $http, $uibModal, $sce, $q, $rootScope ) {
     var service = {};
 
+    service.User = {};
+
     service.resolveCheck = function(){
         var defered = $q.defer();
         var token = service.getCookieByName("token");
         if(token){ //if user exits then retry login
-            service.getUserByToken(token);
-            $rootScope.$broadcast('user:isActive',true);
+            if(!service.User) {
+                service.getUserByToken(token).then(function (response) {
+                    if (response && response.user) {
+                        service.User = response.user;
+                        $rootScope.$broadcast('user:isActive', true);
+                    } else {
+                        console.log(response.message);
+                    }
+                });
+            } else {
+                $rootScope.$broadcast('user:isActive', true);
+            }
         } else {
             service.redirectTo("login");
         }
@@ -341,7 +353,22 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
     return service;
 });
 
+myApp.factory('userProfile', function ($http, $window, $q) {
 
+    var service = {};
+
+    service.getUserInfo = function (userId) {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/userProfile/getUserInfo?userId="+userId ).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getUserInfo in userProfile function');
+        });
+        return deferred.promise;
+    };
+
+    return service;
+});
 
 myApp.factory('mainService', function ($http, $window, $q) {
 
