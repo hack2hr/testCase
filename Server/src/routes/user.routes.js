@@ -103,7 +103,7 @@ router.post(
    wrapAccess(auth, access.user.edit),
    wrapResponse(async (request, response) => {
       const {
-         login, role, password, firstname, lastname, surname, company, department, position
+         login, role, password, firstname, lastname, surname, company, department, position, region_id
       } = request.body;
 
       const candidate = await request.client.query(
@@ -115,10 +115,10 @@ router.post(
       }
 
       const user = await request.client.query(db.queries.insert('users', {
-         login, role, password, firstname, lastname, surname, company, department, position
+         login, role, password, firstname, lastname, surname, company, department, position, region_id
       })).then(db.getOne).catch((e) => handleDefault(response, e));
 
-      response.status(201).json({ message: "Пользователь создан", userId: user['user_id'] });
+      response.status(201).json({ message: "Пользователь изменен", userId: user['user_id'] });
    }));
 
 module.exports = router;

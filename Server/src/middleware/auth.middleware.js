@@ -7,10 +7,7 @@ export default (request, response, next, accessArray) => {
    }
 
    try {
-      // const token = request[`${process.env.TOKEN || 'cookies'}`]?.token;
       const token = request.headers.authorization;
-      console.log(request.headers);
-      console.log(request.headers.authorization);
 
       if (!token) {
          return response.status(401).json({ message: 'Вы не авторизованы' });
