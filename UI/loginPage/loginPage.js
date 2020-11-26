@@ -2,19 +2,19 @@
 
 var loginPage = angular.module('myApp.loginPage', ['ngRoute']);
 
-loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, infoService, $window) {
+loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, infoService) {
 
     $scope.login = null;
     $scope.password = null;
     $scope.user = {};
 
-    var token = getCookieByName("token"); //todo в будущем не будет пользователя в локальном хранилище он будет идентифицирован в куки в виде токена
+    var token = userService.getCookieByName("token");
     if(token){ //if user exits then retry login
         getUserByToken(token);
     }
 
     function getUserByToken(){
-        userService.getUserByToken(token).then(function(response){
+        userService.getUserByToken().then(function(response){
             if(response && response.token) {
                 $rootScope.user = response.user;
                 $scope.user = response.user;
@@ -31,10 +31,11 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
                 if(response && response.token) {
                     var expiration = new Date();
                     expiration = new Date(expiration.setDate(expiration.getDate()+1));
-                    setCookie("token", response.token, expiration)
+                    userService.setCookie("token", response.token, expiration)
                     $rootScope.user = response.user;
                     $scope.user = response.user;
                     localStorage.setItem("user", JSON.stringify(response));
+
                 } else {
                     infoService.infoFunction(response.message, "Ошибка")
                 }
@@ -49,26 +50,7 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
         }
     }
 
-    function setCookie(name,value,expiration){
-        var expires = "";
-        if (expiration) {
-            var date = new Date(expiration);
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "")  + expires + "; path=/ ;"
-        //document.cookie = name + "=" + (value || "")  + expires + "; path=/ ;domain=localhost";
-    }
 
-    function getCookieByName(name) {
-        var value = "; " + document.cookie;
-        var parts = value.split("; " + name + "=");
-        if (parts.length == 2) return parts.pop().split(";").shift();
-        else return null;
-    }
-
-    function deleteTokenFromCookie(){
-        document.cookie = "token=''; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/; ";
-    }
 
     $scope.createUser = function(){
         userService.addUserModal().then(function (){
@@ -87,8 +69,5 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
         }
     }
 
-    function toMain(){
-        $window.location.hash = "#/users";
-    }
 
 });
