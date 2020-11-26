@@ -5,6 +5,10 @@ var users = angular.module('myApp.users', ['ngRoute']);
 users.controller('UsersCtrl', function ($scope, userService, infoService) {
 
     //getAllUsers();
+    $scope.countOfIdeas = 1;
+    $scope.countOfProblems = 2;
+    $scope.countOfDone = 3;
+
     function getAllUsers() {
         userService.getAllUsers().then(function (response) {
             if(response && response.users){
@@ -29,7 +33,7 @@ users.controller('UsersCtrl', function ($scope, userService, infoService) {
         };
     };
 
-    $scope.editUser = function(user){
+    $scope.editUserModal = function(user){
         userService.editUserModal(user).then(function(result){
             if (result) {
                 getAllUsers();
@@ -39,7 +43,7 @@ users.controller('UsersCtrl', function ($scope, userService, infoService) {
         })
     }
 
-    $scope.addUserModal = function(){
+    $scope.createUserModal = function(){
         userService.addUserModal().then(function(result) {
             if (result) {
                 getAllUsers();

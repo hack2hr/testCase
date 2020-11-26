@@ -37,14 +37,6 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
         }
     }
 
-    $scope.infoModal = function(){
-        infoService.infoFunction("тест 12 тест тест", "тест тест")
-    }
-
-    $scope.confirm = function(){
-        var modalInstanse = infoService.openConfirmationModal("тест 12 тест тест", "тест тест");
-
-    }
 
 
     $scope.auth = function(){
@@ -73,6 +65,15 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
     }
 
 
+    /********** FOR TESTING ***********/
+
+    $scope.infoModal = function(){
+        infoService.infoFunction("тест 12 тест тест", "тест тест")
+    }
+
+    $scope.confirm = function(){
+        var modalInstanse = infoService.openConfirmationModal("тест 12 тест тест", "тест тест");
+    }
 
     $scope.createUser = function(){
         userService.addUserModal().then(function (){
@@ -91,5 +92,6 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
         }
     }
 
+    /********** FOR TESTING ***********/
 
 });

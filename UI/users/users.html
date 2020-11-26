@@ -4,8 +4,10 @@
 <div ng-show="user && user.user_id" class="container-fluid">
     <div class="row" style="margin-bottom: 19px;">
         <div class="col-8 d-xl-flex justify-content-between align-items-xl-center">
-            <h1 style="font-family: Montserrat, sans-serif;">Пользователи</h1><button class="btn" type="button" style="height: 55px;background: linear-gradient(-92deg, #2a8bf2, #7cb8f7);color: rgb(255,255,255);font-family: Montserrat, sans-serif;width: 257px;">
-            <i class="fas fa-plus" style="margin-right: 9px;"></i>Новый пользователь</button>
+            <h1 style="font-family: Montserrat, sans-serif;">Пользователи</h1>
+            <button class="btn btn-primary px-3 py-2 ml-0 rounded mainColor" ng-click="createUserModal()" type="submit">
+            <i class="fas fa-plus" style="margin-right: 9px;"></i>Новый пользователь
+            </button>
         </div>
         <div class="col">
 
@@ -21,6 +23,7 @@
                             <tr style="height: 65px;">
                                 <th class="pointer"></th>
                                 <th class="pointer">ФИО</th>
+                                <th class="pointer">Регион</th>
                                 <th class="pointer">Логин</th>
                                 <th class="pointer">Компания</th>
                                 <th class="pointer">Подразделение</th>
@@ -49,8 +52,8 @@
                                             <span class="fa fa-caret-down" title="Действия по пользователю"></span>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a href=""><i class="fa fa-pencil fa-fw"></i>Редактировать</a></li>
-                                            <li><a href=""><i class="fa fa-trash-o fa-fw"></i> Удалить</a></li>
+                                            <li><a href="" ng-click="editUserModal(user)"><i class="fa fa-pencil fa-fw"></i>Редактировать</a></li>
+                                            <li><a href="" onclick="alert("not realized')"><i class="fa fa-trash-o fa-fw"></i> Удалить</a></li>
                                             <li class="divider"></li>
                                             <li><a ng-click="user.isOpenedEdit=!user.isOpenedEdit" href=""><i class="fa fa-unlock"></i>Закрыть</a></li>
                                         </ul>
@@ -68,21 +71,11 @@
                 <div class="col" style="margin-bottom: 25px;">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Title</h4>
-                            <h6 class="text-muted card-subtitle mb-2">Subtitle</h6>
-                            <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><a class="card-link" href="#">Link</a><a class="card-link"
-                                                                                                                                                                                                                                                                   href="#">Link</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Title</h4>
-                            <h6 class="text-muted card-subtitle mb-2">Subtitle</h6>
-                            <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><a class="card-link" href="#">Link</a><a class="card-link"
-                                                                                                                                                                                                                                                                   href="#">Link</a></div>
+                            <h4 class="card-title">Общая статистика</h4>
+                            <h6 class="text-muted card-subtitle mb-2">Предложено проблем: {{countOfIdeas}}</h6>
+                            <h6 class="text-muted card-subtitle mb-2">Предложено идей: {{countOfIdeas}}</h6>
+                            <h6 class="text-muted card-subtitle mb-2">Доведено до внедрения: {{countOfDone}}</h6>
+                        </div>
                     </div>
                 </div>
             </div>

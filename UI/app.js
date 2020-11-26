@@ -16,9 +16,31 @@ function setIpAddress() {
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal','myApp.loginPage',
         'myApp.infoModal',  'myApp.mainPage', 'myApp.users', 'myApp.addUserModalModal', 'myApp.editUserModalModal', 'myApp.profile']);
 
+
 myApp.config(function ($httpProvider) {
-    $httpProvider.defaults.withCredentials = true;
+    $httpProvider.interceptors.push('authInterceptor');
 });
+
+myApp.factory('authInterceptor', function ($rootScope, $q) {
+
+    var service = {};
+
+    service.request = function (config) {
+        config.headers = config.headers || {};
+
+        if(getCookieByName("token") != undefined) config.headers.Authorization = getCookieByName("token");
+        return config;
+    };
+
+    return service;
+});
+
+function getCookieByName(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+    else return null;
+}
 
 myApp.config(function ($routeProvider) {
 

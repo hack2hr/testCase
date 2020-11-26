@@ -16,9 +16,9 @@ addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance,
 
     $scope.userRoles = [{userrole_id:1, userrole_name:'Пользователь'}];
     $scope.newUser.role = $scope.userRoles[0];
-
+    getAllUserRoles();
     function getUserRoles(){
-        userService.addUser($scope.newUser).then(function(result){
+        userService.getAllUserRoles().then(function(result){
             $scope.userRoles = result;
         }, function(error) {
             console.error('AddUserModalCtrl: ', error);

@@ -218,13 +218,13 @@ services.filter('orderObjectBy', function () {
 services.factory('userService', function ($location, $http, $uibModal, $sce, $q, $rootScope ) {
     var service = {};
 
-    service.User = {};
+    service.User = null;
 
     service.resolveCheck = function(){
         var defered = $q.defer();
         var token = service.getCookieByName("token");
         if(token){ //if user exits then retry login
-            if(!service.User && !service.User.user_id) {
+            if(!service.User) {
                 service.getUserByToken(token).then(function (response) {
                     if (response && response.user) {
                         service.User = response.user;
@@ -334,6 +334,15 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         return deferred.promise;
     };
 
+    service.getAllUserRoles = function () {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/user/getAllUserRoles").success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getAllUserRoles in mainService function');
+        });
+        return deferred.promise;
+    };
 
     service.getUserByToken = function () {
         var deferred = $q.defer();
