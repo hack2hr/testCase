@@ -62,7 +62,7 @@ router.get(
 // /api/user/getAllUsers
 router.get(
    '/getAllUsers',
-   // wrapAccess(auth, access.user.getAllUsers),
+   wrapAccess(auth, access.user.getAllUsers),
    wrapResponse(async (request, response) => {
       const allUsers = await request.client.query(
          db.queries.user.getAllUsers()
