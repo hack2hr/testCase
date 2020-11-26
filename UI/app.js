@@ -1,7 +1,5 @@
 'use strict';
 var ipAdress;
-// var serverUrlIndex = 0;
-
 // FOR LOCAL
 var serverUrlIndex = 0;
 
@@ -14,7 +12,8 @@ function setIpAddress() {
 };
 
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal','myApp.loginPage',
-        'myApp.infoModal',  'myApp.mainPage', 'myApp.users', 'myApp.addUserModalModal', 'myApp.editUserModalModal', 'myApp.profile']);
+        'myApp.infoModal',  'myApp.mainPage', 'myApp.users', 'myApp.addUserModalModal', 'myApp.editUserModalModal', 'myApp.profile', 'myApp.settings',
+        'myApp.chat', 'myApp.kanban']);
 
 
 myApp.config(function ($httpProvider) {
@@ -65,6 +64,21 @@ myApp.config(function ($routeProvider) {
         })
         .when('/notFound404', {
             templateUrl: 'notFound404/404.html',
+        })
+        .when('/chat', {
+            templateUrl: 'chat/chat.html',
+            controller: 'ChatCtrl',
+            resolve: UserResolve
+        })
+        .when('/settings', {
+            templateUrl: 'settings/settings.html',
+            controller: 'SettingsCtrl',
+            resolve: UserResolve
+        })
+        .when('/kanban', {
+            templateUrl: 'kanban/kanban.html',
+            controller: 'KanbanCtrl',
+            resolve: UserResolve
         })
         .when('/users', {
             templateUrl: 'users/users.html',

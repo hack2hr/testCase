@@ -14,7 +14,7 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
     }
 
     function getUserByToken(){
-        if(!userService.User || !userService.User.user_id) {
+        if(!userService.User || (userService.User && !userService.User.user_id)) {
             userService.getUserByToken().then(function (response) {
                 if (response && response.user) {
                     $scope.user = response.user;
