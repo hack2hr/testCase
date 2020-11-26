@@ -56,7 +56,7 @@ router.get(
          return response.status(400).json({ message: 'Пользователь не найден' });
       }
 
-      response.json({ user });
+      response.json({ user: user });
    }));
 
 // /api/user/getAllUsers
@@ -104,7 +104,7 @@ router.get(
    wrapAccess(auth, access.user.getAllUserRoles),
    wrapResponse(async (request, response) => {
       const roles = await request.client.query(
-         db.queries.getByFields('users_roles')
+         db.queries.getByFields('user_roles')
       ).then(db.getAll).catch((e) => handleDefault(response, e));
 
       response.json({ roles: roles });
