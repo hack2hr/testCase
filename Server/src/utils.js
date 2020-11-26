@@ -31,7 +31,9 @@ export const db = {
    queries: {
       // SELECT
       getByFields: (table, data) => {
-         const queryString = `SELECT t.* FROM ${table} as t WHERE ${Object.keys(data).map((key) => `t.${key} = :${key}`)}`;
+         const queryString = `SELECT t.* FROM ${table} as t WHERE ${
+            Object.keys(data).map((key) => `t.${key} = :${key}`).join(' AND ')
+         }`;
          return wrapSql(queryString, data);
       },
       // INSERT
