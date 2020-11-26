@@ -230,8 +230,13 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
                         service.User = response.user;
                         $rootScope.$broadcast('user:isActive', true);
                     } else {
+                        service.User = null;
+                        $rootScope.$broadcast('user:isActive', true);
                         console.log(response.message);
                     }
+                }, function () {
+                    service.User = null;
+                    $rootScope.$broadcast('user:isActive', true);
                 });
             } else {
                 $rootScope.$broadcast('user:isActive', true);

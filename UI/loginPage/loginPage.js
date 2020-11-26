@@ -10,11 +10,11 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
 
     var token = userService.getCookieByName("token");
     if(token){ //if user exits then retry login
-        getUserByToken(token);
+        getUserByToken();
     }
 
     function getUserByToken(){
-        if(!userService.User) {
+        if(!userService.User || !userService.User.user_id) {
             userService.getUserByToken().then(function (response) {
                 if (response && response.user) {
                     $scope.user = response.user;
@@ -23,7 +23,12 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
                     userService.redirectTo("users");
                 } else {
                     infoService.infoFunction(response.message, "Ошибка")
+                    $scope.user = userService.User = null;
+                    $rootScope.$broadcast('user:isActive', true);
                 }
+            }, function () {
+                $scope.user = userService.User = null;
+                $rootScope.$broadcast('user:isActive', true);
             });
         } else {
             $scope.user = userService.User;
@@ -31,6 +36,16 @@ loginPage.controller('LoginCtrl', function ($scope, userService, $rootScope, inf
             userService.redirectTo("users");
         }
     }
+
+    $scope.infoModal = function(){
+        infoService.infoFunction("тест 12 тест тест", "тест тест")
+    }
+
+    $scope.confirm = function(){
+        var modalInstanse = infoService.openConfirmationModal("тест 12 тест тест", "тест тест");
+
+    }
+
 
     $scope.auth = function(){
         if($scope.login && $scope.password){

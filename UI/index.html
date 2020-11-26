@@ -50,7 +50,7 @@
             <div class="text-center d-none d-md-inline"><button ng-click="isToggled=!isToggled" class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
         </div>
     </nav>-->
-    <nav class="navbar navbar-dark fixed-top bg-dark off-canvas" data-right-drawer="0" data-open-drawer="1" style="background: rgb(255,255,255);">
+    <nav ng-show="user && user.user_id" class="navbar navbar-dark fixed-top bg-dark off-canvas" data-right-drawer="0" data-open-drawer="1" style="background: rgb(255,255,255);">
         <div class="container-fluid flex-column">
             <div class="d-flex flex-column justify-content-between justify-content-xl-center align-items-xl-center brand-line" style="margin-top: 70px;margin-left: -23px;"><img class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;">
                 <p style="color: #0D1C2E;">Paragraph</p>

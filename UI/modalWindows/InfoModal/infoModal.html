@@ -1,10 +1,11 @@
 <div class="modal-content">
-    <div class="modal-header">
-        <h4 class="modal-title">{{title}}</h4>
-    </div>
-    <div class="modal-body" ng-bind-html="element">
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-outline-secondary" type="button" ng-click="close()">Закрыть</button>
+    <div class="p-3">
+        <h5 class="text-secondary">{{title}}</h5>
+        <br>
+        <p ng-bind-html="element"></p>
+        <br>
+        <div class="text-center">
+            <button class="btn btn-info" type="button" ng-click="close()">Закрыть</button>
+        </div>
     </div>
 </div>

@@ -62,7 +62,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService,  $rootScope) 
         }
     ];
 
-    var KanbanTest = new jKanban({
+   /* var KanbanTest = new jKanban({
         element: "#myKanban",
         gutter: "10px",
         widthBoard: "450px",
@@ -100,9 +100,9 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService,  $rootScope) 
         },
         addItemButton: true,
         boards:  boards
-    });
+    });*/
 
-    var toDoButton = document.getElementById("addToDo");
+   /* var toDoButton = document.getElementById("addToDo");
     toDoButton.addEventListener("click", function() {
         KanbanTest.addElement("_todo", {
             title: "Test Add"
@@ -143,5 +143,5 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService,  $rootScope) 
     var allEle = KanbanTest.getBoardElements("_todo");
     allEle.forEach(function(item, index) {
         //console.log(item);
-    });
+    });*/
 });

@@ -4,7 +4,7 @@ var users = angular.module('myApp.users', ['ngRoute']);
 
 users.controller('UsersCtrl', function ($scope, userService, infoService) {
 
-    getAllUsers();
+    //getAllUsers();
     function getAllUsers() {
         userService.getAllUsers().then(function (response) {
             if(response && response.users){
