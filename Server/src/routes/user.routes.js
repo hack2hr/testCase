@@ -11,9 +11,9 @@ router.get(
       const {login, password} = request.query;
       const client = request.client;
       const user = await client.query(
-         db.queries.getByField('Users', 'login', login)
+         db.queries.getByFields('Users', { login })
       ).then(db.getOne);
-
+		 //console.log(user)
       if (!user) {
          return response.status(400).json({ message: 'Пользователь не найден' });
       }
@@ -32,6 +32,7 @@ router.get(
       );
 
       response.cookie('token', token);
+		
       response.json({ token, user });
    }));
 
@@ -41,9 +42,10 @@ router.get(
    wrapResponse(async (request, response) => {
       const {token} = request.query;
       const decoded = jwt.verify(token, getFromConfig('jwtsecret'));
+      const user_id = decoded.userId;
 
       const user = await request.client.query(
-         db.queries.getByField('Users', 'user_id', decoded.userId)
+         db.queries.getByFields('Users', { user_id })
       ).then(db.getOne);
 
       if (!user) {
@@ -63,7 +65,7 @@ router.post(
       } = request.body;
 
       const candidate = await request.client.query(
-         db.queries.getByField('Users', 'login', login)
+         db.queries.getByFields('Users', { login })
       ).then(db.getOne);
 
       if (candidate) {
@@ -77,5 +79,17 @@ router.post(
       response.status(201).json({ message: "Пользователь создан", userId: user['user_id'] });
    }));
 
-
+   
+router.get(
+   '/getUserByToken',
+   async (request, response) => {
+      try {
+         const token = request.cookie('token');
+		 console.log(token)
+         response.json({ token, token });
+		
+      } catch(e) {
+         response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
+      }
+ });
 module.exports = router;
