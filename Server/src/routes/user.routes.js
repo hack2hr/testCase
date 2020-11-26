@@ -93,14 +93,14 @@ router.get(
    wrapAccess(auth, getFromConfig('access.user.getAllUserRoles')),
    wrapResponse(async (request, response) => {
       const roles = await request.client.query(
-         db.queries.getByFields('users_roles')
+         db.queries.getByFields('user_roles')
       ).then(db.getOne);
 
       if (!roles) {
          response.status(400).json({ message: 'Не было найдено ни одной роли' });
       }
 
-      response.json({ roles });
+      response.json({ roles: roles });
    }));
 
 module.exports = router;
