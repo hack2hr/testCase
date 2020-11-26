@@ -1,82 +1,84 @@
 const {Router} = require('express');
-// const bcrypt = require('bcryptjs');
-// const {check, validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
-const config = require('config');
-import {db} from '../utils';
-const sql = require('yesql').pg;
+import {db, getFromConfig, wrapResponse, wrapAccess} from '../utils';
 import auth from '../middleware/auth.middleware';
 const router = Router();
-
-// /api/user/add
-// router.post(
-//    '/add',
-//    [auth],
-//    async (request, response) => {
-//       try {
-//          const errors = validationResult(request);
-//
-//          if (!errors.isEmpty()) {
-//             return response.status(400).json({
-//                error: errors.array(),
-//                message: 'Некорректные данные при регистрации'
-//             })
-//          }
-//
-//          const {email, password} = request.body;
-//          const candidate = await User.findOne({ email });
-//
-//          if (candidate) {
-//             return response.status(400).json({ message: "Такой пользователь уже существует" });
-//          }
-//
-//          const hashedPassword = await bcrypt.hash(password, 12);
-//          const user = new User({ email, password: hashedPassword });
-//
-//          await user.save();
-//
-//          response.status(201).json({ message: "Пользователь создан" });
-//       } catch(e) {
-//          response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' });
-//       }
-//    });
 
 // /api/user/login
 router.get(
    '/login',
-   async (request, response) => {
-      try {
-         const {login, password} = request.query;
-         const client = request.client;
-		 //console.log(login, password)
-         const getUserByLogin = sql(
-            'SELECT u.* ' +
-            'FROM Users as u ' +
-            'WHERE u.login = :login')({
-            login, password
-         });
-         const user = await client.query(getUserByLogin).then(db.getOne)
+   wrapResponse(async (request, response) => {
+      const {login, password} = request.query;
+      const client = request.client;
+      const user = await client.query(
+         db.queries.getByFields('Users', { login })
+      ).then(db.getOne);
 		 //console.log(user)
-         if (!user) {
-            return response.status(400).json({ message: 'Пользователь не найден' });
-         }
-
-         if (password !== user.password) {
-            return response.status(400).json({ message: 'Неверный пароль, попробуйте снова' });
-         }
-
-         const token = jwt.sign(
-            { userId: user.id },
-            config.get("jwtsecret"),
-            { expiresIn: '1w' }
-         );
-		 response.cookie('token',token)
-         response.json({ token, user: user });
-		
-      } catch(e) {
-         response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e });
+      if (!user) {
+         return response.status(400).json({ message: 'Пользователь не найден' });
       }
-   });
+
+      if (password !== user.password) {
+         return response.status(400).json({ message: 'Неверный пароль, попробуйте снова' });
+      }
+
+      const token = jwt.sign(
+         {
+            userId: user.user_id,
+            role: user.role
+         },
+         getFromConfig("jwtsecret"),
+         { expiresIn: '1w' }
+      );
+
+      response.cookie('token', token);
+		
+      response.json({ token, user });
+   }));
+
+// /api/user/getUserByToken
+router.get(
+   '/getUserByToken',
+   wrapResponse(async (request, response) => {
+      const {token} = request.query;
+      const decoded = jwt.verify(token, getFromConfig('jwtsecret'));
+      const user_id = decoded.userId;
+
+      const user = await request.client.query(
+         db.queries.getByFields('Users', { user_id })
+      ).then(db.getOne);
+
+      if (!user) {
+         return response.status(400).json({ message: 'Пользователь не найден' });
+      }
+
+      response.json({ user });
+   }));
+
+// /api/user/add
+router.post(
+   '/add',
+   wrapAccess(auth, getFromConfig('access.user.add')),
+   wrapResponse(async (request, response) => {
+      const {
+         login, role, password, firstname, lastname, surname, company, department, position
+      } = request.body;
+
+      const candidate = await request.client.query(
+         db.queries.getByFields('Users', { login })
+      ).then(db.getOne);
+
+      if (candidate) {
+         return response.status(400).json({ message: "Такой пользователь уже существует" });
+      }
+
+      const user = await request.client.query(db.queries.insert('Users', {
+         login, role, password, firstname, lastname, surname, company, department, position
+      })).then(db.getOne);
+
+      response.status(201).json({ message: "Пользователь создан", userId: user['user_id'] });
+   }));
+
    
 router.get(
    '/getUserByToken',
