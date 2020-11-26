@@ -40,6 +40,8 @@ app.use(function (req, res, next) {
 app.use(express.json({ extended: true }));
 app.use(saveClient);
 app.use('/api/user/', require('./routes/user.routes'));
+app.use('/api/user_roles/', require('./routes/user_roles.routes'));
+app.use('/api/region/', require('./routes/region.routes'));
 
 app.listen(port, hostname, async () => {
     await connectToDataBase();
