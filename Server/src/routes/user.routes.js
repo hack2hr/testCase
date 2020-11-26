@@ -58,7 +58,7 @@ router.get(
          return response.status(400).json({ message: 'Пользователь не найден' });
       }
 
-      response.json({ user });
+      response.json({ user: user });
    }));
 
 // /api/user/getAllUsers
