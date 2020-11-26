@@ -1,7 +1,7 @@
 
 var addUserModal = angular.module('myApp.addUserModalModal', ['ngRoute', 'ui.bootstrap']);
 
-addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, userService) {
+addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, userService, infoService) {
 
     $scope.newUser = {};
 
@@ -14,15 +14,46 @@ addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance,
         });
     }
 
-    $scope.userRoles = [{userrole_id:1, userrole_name:'Пользователь'}];
-    $scope.newUser.role = $scope.userRoles[0];
+
     getAllUserRoles();
+    getAllRegions();
+
     function getAllUserRoles(){
-        userService.getAllUserRoles().then(function(result){
-            $scope.userRoles = result;
+        userService.getAllUserRoles().then(function(response){
+            if(response && response.roles){
+                $scope.userRoles = response.roles;
+            } else {
+                setDefaultRoles();
+                infoService.infoFunction(response.message, "Ошибка");
+            }
         }, function(error) {
-            console.error('AddUserModalCtrl: ', error);
+            console.error('getAllUserRoles: ', error);
+            setDefaultRoles();
         });
+    }
+
+    function setDefaultRoles(){
+        $scope.userRoles = [{userrole_id:1, userrole_name:'Пользователь'}];
+        $scope.newUser.role = $scope.userRoles[0];
+    }
+
+    function getAllRegions(){
+        regionService.getAllRegions().then(function(response){
+            if(response && response.regions){
+                $scope.regions = response.regions;
+            } else {
+                setDefaultRegion();
+                infoService.infoFunction(response.message, "Ошибка");
+            }
+        }, function(error) {
+            setDefaultRegion();
+            console.error('getAllRegions: ', error);
+        });
+    }
+
+    function setDefaultRegion(){
+        $scope.regions = [{region_id:0, userrole_name:'Регион не указан'}];
+        $scope.newUser.region_id = $scope.regions[0].region_id;
     }
 
     $scope.close = function () {

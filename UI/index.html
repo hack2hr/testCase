@@ -40,16 +40,16 @@
         <div class="container-fluid flex-column">
             <div class="d-flex flex-column justify-content-between justify-content-xl-center align-items-xl-center brand-line" style="margin-top: 70px;margin-left: -23px;">
                 <img ng-if="!user || !user.user_id"  src="images/icons/default-user.jpg" class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;"  >
-                <img ng-if="user && user.user_id" ng-src="{{'images/icons/user-icons/'+user.user_id+'.png'}}" class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;">
+                <img ng-if="user && user.user_id && user.user_id<=5" ng-src="{{'images/icons/user-icons/'+user.user_id+'.png'}}" class="rounded-circle" style="margin-bottom: 18px;width: 90px;height: 90px;">
                 <a href="#/profile" class="href-style" style="color: #0D1C2E;">{{user.lastname + ' ' + user.firstname}}</p>
             </div>
             <ul class="nav navbar-nav flex-column drawer-menu" style="margin-top: 45px;">
-                <li class="nav-item ml-2" ><a class="nav-link text-nowrap" href="#/main" style="margin-bottom: 30px;color: #707C97;"><i class="fab fa-buromobelexperte" style="margin-right: 20px;"></i>ГЛАВНАЯ</a></li>
-                <li class="nav-item ml-2" ><a class="nav-link text-nowrap" href="#/chat" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-user" style="margin-right: 20px;"></i>ЧАТ</a></li>
-                <li class="nav-item ml-2" ><a class="nav-link text-nowrap" href="#/users" style="margin-bottom: 30px;color: #707C97;"><i class="fa fa-comment" style="margin-right: 18px;"></i>ПОЛЬЗОВАТЕЛИ</a></li>
-                <li class="nav-item ml-2" ><a class="nav-link text-nowrap" href="#/kanban" style="margin-bottom: 30px;color: #707C97;"><i class="fa fa-clipboard" style="margin-right: 22px;"></i>КАНБАН</a></li>
-                <li class="nav-item ml-2" ><a class="nav-link text-nowrap" href="#/settings" style="color: #707C97;"><i class="fa fa-star" style="margin-right: 19px;"></i>НАСТРОЙКИ</a></li>
-                <li class="nav-item ml-2 mt-5" ><a class="nav-link text-nowrap" href="" ng-click="logOut()" style="color: #707C97;"><i class="fas fa-power-off" style="margin-right: 20px;"></i>ВЫЙТИ</a></li>
+                <li class="nav-item ml-2" ><a class="nav-link text-nowrap" href="#/main" style="margin-bottom: 30px;color: #707C97;"><i class="fab fa-buromobelexperte text-primary" style="margin-right: 20px;"></i>ГЛАВНАЯ</a></li>
+                <li class="nav-item ml-2" ><a class="nav-link text-nowrap" href="#/chat" style="margin-bottom: 30px;color: #707C97;"><i class="far fa-user text-primary" style="margin-right: 20px;"></i>ЧАТ</a></li>
+                <li class="nav-item ml-2" ><a class="nav-link text-nowrap" href="#/users" style="margin-bottom: 30px;color: #707C97;"><i class="fa fa-comment text-primary" style="margin-right: 18px;"></i>ПОЛЬЗОВАТЕЛИ</a></li>
+                <li class="nav-item ml-2" ><a class="nav-link text-nowrap" href="#/kanban" style="margin-bottom: 30px;color: #707C97;"><i class="fa fa-clipboard text-primary" style="margin-right: 22px;"></i>КАНБАН</a></li>
+                <li class="nav-item ml-2" ><a class="nav-link text-nowrap" href="#/settings" style="color: #707C97;"><i class="fa fa-star text-primary" style="margin-right: 19px;"></i>НАСТРОЙКИ</a></li>
+                <li class="nav-item ml-2 mt-5" ><a class="nav-link text-nowrap" href="" ng-click="logOut()" style="color: #707C97;"><i class="fas fa-power-off text-primary" style="margin-right: 20px;"></i>ВЫЙТИ</a></li>
             </ul>
         </div>
     </nav>

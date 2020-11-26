@@ -281,12 +281,7 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         }
     }
 
-    service.getAllUsers = function () {
-        return request($http, $q, 'get', '/api/staff/all/', 'getAllUsers', 'userService')
-            .then(function(result) {
-                return JSON.parse(result);
-            });
-    }
+    /************************************* MODALS *************************************/
 
     service.addUserModal = function () {
         var modalInstance = $uibModal.open({
@@ -309,9 +304,19 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
                 }
             }
         });
-
         return modalInstance.result;
     };
+
+    /************************************* USER API *************************************/
+    service.getAllUsers = function () {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/user/getAll").success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getAllUsers in userService function');
+        });
+        return deferred.promise;
+    }
 
     service.addUser = function (user) {
         var deferred = $q.defer();
@@ -319,7 +324,7 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
             console.log(headers)
             deferred.resolve(response);
         }).error(function () {
-            deferred.reject('Error in getTestRequest in mainService function');
+            deferred.reject('Error in addUser in userService function');
         });
         return deferred.promise;
     };
@@ -329,17 +334,7 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         $http.post(ipAdress + "/api/user/edit", user).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
-            deferred.reject('Error in getTestRequest in mainService function');
-        });
-        return deferred.promise;
-    };
-
-    service.getAllUserRoles = function () {
-        var deferred = $q.defer();
-        $http.get(ipAdress + "/api/user/getAllUserRoles").success(function (response) {
-            deferred.resolve(response);
-        }).error(function () {
-            deferred.reject('Error in getAllUserRoles in mainService function');
+            deferred.reject('Error in editUser in userService function');
         });
         return deferred.promise;
     };
@@ -349,7 +344,7 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         $http.get(ipAdress + "/api/user/getUserByToken").success(function (response) {
             deferred.resolve(response);
         }).error(function () {
-            deferred.reject('Error in getUserByToken in mainService function');
+            deferred.reject('Error in getUserByToken in userService function');
         });
         return deferred.promise;
     };
@@ -359,11 +354,22 @@ services.factory('userService', function ($location, $http, $uibModal, $sce, $q,
         $http.get(ipAdress + "/api/user/login?login="+login+"&password="+password).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
-            deferred.reject('Error in login in mainService function');
+            deferred.reject('Error in login in userService function');
         });
         return deferred.promise;
     };
 
+    /************************************* USER ROLE API *************************************/
+
+    service.getAllUserRoles = function () {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/user_roles/getAll").success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getAllUserRoles in userService function');
+        });
+        return deferred.promise;
+    };
 
     return service;
 });
@@ -378,6 +384,24 @@ myApp.factory('userProfile', function ($http, $window, $q) {
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in getUserInfo in userProfile function');
+        });
+        return deferred.promise;
+    };
+
+    return service;
+});
+
+
+myApp.factory('regionService', function ($http, $window, $q) {
+
+    var service = {};
+
+    service.getAllRegions = function () {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/region/getAll" ).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getAllRegions in regionService function');
         });
         return deferred.promise;
     };
