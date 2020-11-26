@@ -1,10 +1,27 @@
 const sql = require('yesql').pg;
+var config = require('config');
 
 export const errorControl = (error, response) => {
    response.send('Error discovered: ' + error);
 }
 
+export const getFromConfig = (query) => {
+   if (config.has(query)) {
+       return config.get(query);
+   }
+   throw new Error(`Error getting "${query}" from config`);
+}
+
 export const wrapSql = (queryString, data) => sql(queryString)(data);
+export const wrapResponse = (func) => {
+   return (request, response, next) => {
+      try {
+         func(request, response, next);
+      } catch (error) {
+         response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: e.stack });
+      }
+   }
+};
 
 export const db = {
    getOne: (result) => result.rows?.[0],

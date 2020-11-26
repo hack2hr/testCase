@@ -1,8 +1,8 @@
 ﻿const express = require("express");
 const {Client} = require('pg');
-var config = require('config');
 const http = require('http');
 const https = require('https');
+import {getFromConfig} from './utils';
 
 // const hostname = '10.0.0.6';
 // FOR LOCAL
@@ -26,15 +26,6 @@ app.use(function (req, res, next) {
 app.use(express.json({ extended: true }));
 app.use(saveClient);
 app.use('/api/user/', require('./routes/user.routes'));
-
-// // FOR LOCAL
-
-function getFromConfig(query) {
-    if (config.has(query)) {
-        return config.get(query);
-    }
-    throw new Error('Error getting from config')
-}
 
 connectToDataBase();
 
