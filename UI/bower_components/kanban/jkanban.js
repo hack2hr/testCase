@@ -291,7 +291,7 @@ var dragula = require("dragula");
           var t = document.createTextNode(buttonContent);
           btn.setAttribute(
             "class",
-            "kanban-title-button btn btn-default btn-xs"
+            "kanban-title-button btn btn-info rounded px-4 py-2"
           );
           btn.appendChild(t);
           //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
