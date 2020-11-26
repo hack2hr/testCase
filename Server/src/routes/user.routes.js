@@ -11,7 +11,7 @@ router.get(
       const {login, password} = request.query;
       const client = request.client;
       const user = await client.query(
-         db.queries.getByField('Users', 'login', login)
+         db.queries.getByFields('Users', { login })
       ).then(db.getOne);
 
       if (!user) {
@@ -41,9 +41,10 @@ router.get(
    wrapResponse(async (request, response) => {
       const {token} = request.query;
       const decoded = jwt.verify(token, getFromConfig('jwtsecret'));
+      const user_id = decoded.userId;
 
       const user = await request.client.query(
-         db.queries.getByField('Users', 'user_id', decoded.userId)
+         db.queries.getByFields('Users', { user_id })
       ).then(db.getOne);
 
       if (!user) {
@@ -63,7 +64,7 @@ router.post(
       } = request.body;
 
       const candidate = await request.client.query(
-         db.queries.getByField('Users', 'login', login)
+         db.queries.getByFields('Users', { login })
       ).then(db.getOne);
 
       if (candidate) {

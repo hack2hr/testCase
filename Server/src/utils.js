@@ -30,9 +30,9 @@ export const db = {
    getOne: (result) => result.rows?.[0],
    queries: {
       // SELECT
-      getByField: (table, field, value) => {
-         const queryString = `SELECT t.* FROM ${table} as t WHERE t.${field} = :${field}`;
-         return wrapSql(queryString, { [field]: value });
+      getByFields: (table, data) => {
+         const queryString = `SELECT t.* FROM ${table} as t WHERE ${Object.keys(data).map((key) => `t.${key} = :${key}`)}`;
+         return wrapSql(queryString, data);
       },
       // INSERT
       insert: (table, data) => {
