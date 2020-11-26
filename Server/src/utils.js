@@ -46,6 +46,21 @@ export const db = {
             Object.keys(data).map((key) => `:${key}`).join(', ')
          }) RETURNING *`;
          return wrapSql(queryString, data);
+      },
+      // UPDATE
+      update: (table, data) => {
+         const queryString = `UPDATE ${table} as t SET document = to_tsvector(project_name || '. ' || project_describe) WHERE document IS NULL;`
+      },
+
+      // API
+      user: {
+         getAllUsers: () => {
+            return sql(`SELECT user_id, login, role, password, firstname,
+                           lastname, surname, company,
+                           department, "position", r.region_name
+            FROM users as u
+            LEFT JOIN regions as r on r.region_id = u.region_id`)({})
+         }
       }
    }
 };

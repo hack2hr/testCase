@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const jwt = require('jsonwebtoken');
-import {db, getFromConfig, wrapResponse, wrapAccess, defaultError} from '../utils';
+import {db, getFromConfig, wrapResponse, wrapAccess, handleDefault} from '../utils';
 import auth from '../middleware/auth.middleware';
 import access from './../access';
 const router = Router();
@@ -32,8 +32,6 @@ router.get(
          getFromConfig("jwtsecret"),
          { expiresIn: '1w' }
       );
-
-      // response.cookie('token', token);
 		
       response.json({ token, user });
    }));
@@ -64,10 +62,10 @@ router.get(
 // /api/user/getAllUsers
 router.get(
    '/getAllUsers',
-   wrapAccess(auth, access.user.getAllUsers),
+   // wrapAccess(auth, access.user.getAllUsers),
    wrapResponse(async (request, response) => {
       const allUsers = await request.client.query(
-         db.queries.getByFields('users')
+         db.queries.user.getAllUsers()
       ).then(db.getAll).catch((e) => handleDefault(response, e));
 
       response.json({ users: allUsers });
@@ -83,7 +81,7 @@ router.post(
       } = request.body;
 
       const candidate = await request.client.query(
-         db.queries.getByFields('Users', { login })
+         db.queries.getByFields('sers', { login })
       ).then(db.getOne).catch((e) => handleDefault(response, e));
 
       if (candidate) {
@@ -109,7 +107,7 @@ router.get(
          db.queries.getByFields('users_roles')
       ).then(db.getAll).catch((e) => handleDefault(response, e));
 
-      response.json({ roles });
+      response.json({ roles: roles });
    }));
 
 module.exports = router;
