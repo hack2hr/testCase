@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const jwt = require('jsonwebtoken');
-import {db, getFromConfig, wrapResponse, wrapAccess} from '../utils';
+import {db, getFromConfig, wrapResponse, wrapAccess, defaultError} from '../utils';
 import auth from '../middleware/auth.middleware';
 const router = Router();
 
@@ -14,7 +14,7 @@ router.get(
       const client = request.client;
       const user = await client.query(
          db.queries.getByFields('users', { login })
-      ).then(db.getOne);
+      ).then(db.getOne).catch((e) => handleDefault(response, e));
       if (!user) {
          return response.status(400).json({ message: 'Пользователь не найден' });
       }
@@ -32,7 +32,7 @@ router.get(
          { expiresIn: '1w' }
       );
 
-      response.cookie('token', token);
+      // response.cookie('token', token);
 		
       response.json({ token, user });
    }));
@@ -43,7 +43,7 @@ router.get(
    wrapResponse(async (request, response) => {
       const token = request.headers.authorization;
       if (!token) {
-         throw 'Пользователь не был автризован';
+         return response.status(400).json({ message: 'Пользователь не был автризован' });
       }
 
       const decoded = jwt.verify(token, getFromConfig('jwtsecret'));
@@ -51,13 +51,25 @@ router.get(
 
       const user = await request.client.query(
          db.queries.getByFields('users', { user_id })
-      ).then(db.getOne);
+      ).then(db.getOne).catch((e) => handleDefault(response, e));
 
       if (!user) {
          return response.status(400).json({ message: 'Пользователь не найден' });
       }
 
       response.json({ user });
+   }));
+
+// /api/user/getAllUsers
+router.get(
+   '/getAllUsers',
+   wrapAccess(auth, getFromConfig('access.user.getAllUsers')),
+   wrapResponse(async (request, response) => {
+      const allUsers = await request.client.query(
+         db.queries.getByFields('users')
+      ).then(db.getAll).catch((e) => handleDefault(response, e));
+
+      response.json({ users: allUsers });
    }));
 
 // /api/user/add
@@ -71,7 +83,7 @@ router.post(
 
       const candidate = await request.client.query(
          db.queries.getByFields('Users', { login })
-      ).then(db.getOne);
+      ).then(db.getOne).catch((e) => handleDefault(response, e));
 
       if (candidate) {
          return response.status(400).json({ message: "Такой пользователь уже существует" });
@@ -79,7 +91,7 @@ router.post(
 
       const user = await request.client.query(db.queries.insert('users', {
          login, role, password, firstname, lastname, surname, company, department, position
-      })).then(db.getOne);
+      })).then(db.getOne).catch((e) => handleDefault(response, e));
 
       response.status(201).json({ message: "Пользователь создан", userId: user['user_id'] });
    }));
@@ -93,14 +105,10 @@ router.get(
    wrapAccess(auth, getFromConfig('access.user.getAllUserRoles')),
    wrapResponse(async (request, response) => {
       const roles = await request.client.query(
-         db.queries.getByFields('user_roles')
-      ).then(db.getOne);
+         db.queries.getByFields('users_roles')
+      ).then(db.getAll).catch((e) => handleDefault(response, e));
 
-      if (!roles) {
-         response.status(400).json({ message: 'Не было найдено ни одной роли' });
-      }
-
-      response.json({ roles: roles });
+      response.json({ roles });
    }));
 
 module.exports = router;
