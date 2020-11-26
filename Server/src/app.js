@@ -1,17 +1,20 @@
 ﻿const express = require("express");
 const {Client} = require('pg');
-const http = require('http');
-const https = require('https');
 import {getFromConfig} from './utils';
 
 const hostname = process.env.IP_ADDRESS || '10.0.0.6';
 const port = 8080;
-var client = null;
 const app = express();
 const saveClient = (req, res, next) => {
     req.client = client;
     next();
 };
+
+var client = null;
+const connectToDataBase = () => {
+    client = new Client(getFromConfig('postgresql'));
+    client.connect();
+}
 
 const ALLOWED_ORIGINS = [
   'http://168.63.58.52:80',
@@ -38,14 +41,7 @@ app.use(express.json({ extended: true }));
 app.use(saveClient);
 app.use('/api/user/', require('./routes/user.routes'));
 
-connectToDataBase();
-
-function connectToDataBase() {
-    client = new Client(getFromConfig('postgresql'));
-    client.connect();
-}
-
-/*server start */
-app.listen(port, hostname, () => {
+app.listen(port, hostname, async () => {
+    await connectToDataBase();
     console.log(`Server running at http://${hostname}:${port}/`);
 });
