@@ -13,8 +13,8 @@
         </select>
         <select placeholder="Регион" class="form-control my-2 mx-1" ng-model="newUser.region_id">
             <option ng-repeat="region in regions"
-                    value="{{role.region_id}}">
-                {{role.region_name}}
+                    value="{{region.region_id}}">
+                {{region.region_name}}
             </option>
         </select>
         <input placeholder="Имя" class="form-control my-2 mx-1" ng-model="newUser.firstname">

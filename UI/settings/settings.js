@@ -2,7 +2,7 @@
 
 var settings = angular.module('myApp.settings', ['ngRoute']);
 
-settings.controller('StingsCtrl', function ($scope, mainService,  $rootScope) {
+settings.controller('SettingsCtrl', function ($scope, mainService,  $rootScope) {
 
 
 });

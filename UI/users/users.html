@@ -58,10 +58,11 @@
                                 </td>
                                 <td>
                                     <div class="btn-group " ng-class="{'open': user.isOpenedEdit}">
-                                        <a ng-click="user.isOpenedEdit=!user.isOpenedEdit" class="btn btn-primary dropdown-toggle" data-toggle=" " href="">
-                                            <span class="fa fa-caret-down" title="Действия по пользователю"></span>
-                                        </a>
-                                        <ul class="dropdown-menu p-2" style="margin-left: -80px;">
+
+                                        <div class="pointer">
+                                            <i ng-click="user.isOpenedEdit=!user.isOpenedEdit" class="fas fa-ellipsis-h fa-lg"></i>
+                                        </div>
+                                        <ul class="dropdown-menu p-2" style="margin-left: -100px;">
                                             <li><a href="" ng-click="editUserModal(user)"><i class="fa fa-pencil fa-fw"></i>&nbsp;Редактировать</a></li>
                                             <li><a href="" onclick="alert('not realized')"><i class="fa fa-trash-o fa-fw"></i>&nbsp;Удалить</a></li>
                                             <li class="divider"></li>

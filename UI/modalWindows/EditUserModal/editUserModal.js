@@ -1,7 +1,7 @@
 
 var editUser = angular.module('myApp.editUserModalModal', ['ngRoute', 'ui.bootstrap']);
 
-editUser.controller('EditUserModalCtrl', function ($scope, $uibModalInstance, user, userService, regionService) {
+editUser.controller('EditUserModalCtrl', function ($scope, $uibModalInstance, user, userService, infoService,regionService) {
 
     $scope.newUser = JSON.parse(JSON.stringify(user));
 
@@ -26,6 +26,7 @@ editUser.controller('EditUserModalCtrl', function ($scope, $uibModalInstance, us
             }
         }, function(error) {
             console.error('getAllUserRoles: ', error);
+            infoService.infoFunction(error.error, error.message);
             setDefaultRoles();
         });
     }
@@ -45,6 +46,7 @@ editUser.controller('EditUserModalCtrl', function ($scope, $uibModalInstance, us
             }
         }, function(error) {
             setDefaultRegion();
+            infoService.infoFunction(error.error, error.message);
             console.error('getAllRegions: ', error);
         });
     }

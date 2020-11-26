@@ -1,7 +1,7 @@
 
 var addUserModal = angular.module('myApp.addUserModalModal', ['ngRoute', 'ui.bootstrap']);
 
-addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, userService, infoService) {
+addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance, userService, infoService, regionService) {
 
     $scope.newUser = {};
 
@@ -28,6 +28,7 @@ addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance,
             }
         }, function(error) {
             console.error('getAllUserRoles: ', error);
+            infoService.infoFunction(error.error, error.message);
             setDefaultRoles();
         });
     }
@@ -47,6 +48,7 @@ addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance,
             }
         }, function(error) {
             setDefaultRegion();
+            infoService.infoFunction(error.error, error.message);
             console.error('getAllRegions: ', error);
         });
     }
