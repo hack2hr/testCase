@@ -4,7 +4,8 @@ var users = angular.module('myApp.users', ['ngRoute']);
 
 users.controller('UsersCtrl', function ($scope, userService, infoService) {
 
-    //getAllUsers();
+    getAllUsers();
+
     $scope.countOfIdeas = 1;
     $scope.countOfProblems = 2;
     $scope.countOfDone = 3;

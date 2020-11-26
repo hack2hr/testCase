@@ -11,6 +11,12 @@
                 {{role.userrole_name}}
             </option>
         </select>
+        <select placeholder="Регион" class="form-control my-2 mx-1" ng-model="newUser.region_id">
+            <option ng-repeat="region in regions"
+                    value="{{role.region_id}}">
+                {{role.region_name}}
+            </option>
+        </select>
         <input placeholder="Имя" class="form-control my-2 mx-1" ng-model="newUser.firstname">
         <input placeholder="Фамилия" class="form-control my-2 mx-1" ng-model="newUser.lastname">
         <input placeholder="Отчество" class="form-control my-2 mx-1" ng-model="newUser.surname">
