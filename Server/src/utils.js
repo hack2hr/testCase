@@ -5,6 +5,7 @@ export const getFromConfig = (query) => {
    if (config.has(query)) {
        return config.get(query);
    }
+
    throw new Error(`Error getting "${query}" from config`);
 }
 

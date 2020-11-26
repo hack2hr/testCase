@@ -2,6 +2,7 @@ const {Router} = require('express');
 const jwt = require('jsonwebtoken');
 import {db, getFromConfig, wrapResponse, wrapAccess, defaultError} from '../utils';
 import auth from '../middleware/auth.middleware';
+import access from './../access';
 const router = Router();
 
 /******************************   ПОЛЬЗОВАТЕЛИ   **********************************/
@@ -63,7 +64,7 @@ router.get(
 // /api/user/getAllUsers
 router.get(
    '/getAllUsers',
-   wrapAccess(auth, getFromConfig('access.user.getAllUsers')),
+   wrapAccess(auth, access.user.getAllUsers),
    wrapResponse(async (request, response) => {
       const allUsers = await request.client.query(
          db.queries.getByFields('users')
@@ -75,7 +76,7 @@ router.get(
 // /api/user/add
 router.post(
    '/add',
-   wrapAccess(auth, getFromConfig('access.user.add')),
+   wrapAccess(auth, access.user.add),
    wrapResponse(async (request, response) => {
       const {
          login, role, password, firstname, lastname, surname, company, department, position
@@ -102,7 +103,7 @@ router.post(
 // /api/user/getAllUserRoles
 router.get(
    '/getAllUserRoles',
-   wrapAccess(auth, getFromConfig('access.user.getAllUserRoles')),
+   wrapAccess(auth, access.user.getAllUserRoles),
    wrapResponse(async (request, response) => {
       const roles = await request.client.query(
          db.queries.getByFields('users_roles')
