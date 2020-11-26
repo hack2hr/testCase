@@ -1,10 +1,6 @@
 const sql = require('yesql').pg;
 var config = require('config');
 
-export const errorControl = (error, response) => {
-   response.send('Error discovered: ' + error);
-}
-
 export const getFromConfig = (query) => {
    if (config.has(query)) {
        return config.get(query);
