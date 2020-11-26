@@ -10,7 +10,7 @@ router.get(
     wrapAccess(auth, access.region.getAll),
     wrapResponse(async (request, response) => {
        const regions = await request.client.query(
-          db.queries.getByFields('region')
+          db.queries.getByFields('regions')
        ).then(db.getAll).catch((e) => handleDefault(response, e));
  
        response.json({ regions: regions });

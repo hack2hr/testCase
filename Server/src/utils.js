@@ -12,13 +12,13 @@ export const getFromConfig = (query) => {
 // WRAPPERS
 export const wrapSql = (queryString, data) => sql(queryString)(data);
 export const handleDefault = (response, error) =>
-   response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error: error.stack });
+   response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error, stack: error.stack });
 export const wrapResponse = (func) => {
    return (request, response, next) => {
       try {
          func(request, response, next);
       } catch (error) {
-         handleDefault(response, error);
+         return handleDefault(response, error);
       }
    }
 };
