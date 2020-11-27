@@ -19,6 +19,7 @@ var dragula = require("dragula");
     this._disallowedItemProperties = [
       "id",
       "title",
+      "user",
       "click",
       "drag",
       "dragend",
@@ -252,12 +253,12 @@ var dragula = require("dragula");
           //add width to container
           if (self.container.style.width === "") {
             self.container.style.width =
-              parseInt(boardWidth) + parseInt(self.options.gutter) * 2 + "px";
+                (parseInt(boardWidth) + parseInt(self.options.gutter) * 2) - 140 + "px";
           } else {
             self.container.style.width =
-              parseInt(self.container.style.width) +
+                ((parseInt(self.container.style.width) +
               parseInt(boardWidth) +
-              parseInt(self.options.gutter) * 2 +
+              parseInt(self.options.gutter) * 2) - 155) +
               "px";
           }
         }
@@ -291,7 +292,7 @@ var dragula = require("dragula");
           var t = document.createTextNode(buttonContent);
           btn.setAttribute(
             "class",
-            "btn btn-info rounded px-3 py-1 ml-2"
+            "btn btn-outline-light rounded px-3 py-1 ml-2"
           );
           btn.appendChild(t);
           //var buttonHtml = '<button class="kanban-title-button btn btn-default btn-xs">'+buttonContent+'</button>'
@@ -322,7 +323,7 @@ var dragula = require("dragula");
               nodeItem.classList.add(cl);
             })
           }
-          nodeItem.innerHTML = __buildItemTitle(itemKanban.title);
+          nodeItem.innerHTML = __buildItemTitle(itemKanban);
           //add function
           nodeItem.clickfn = itemKanban.click;
           nodeItem.dragfn = itemKanban.drag;
@@ -509,8 +510,9 @@ var dragula = require("dragula");
       }
     }
 
-    function __buildItemTitle(title) {
-      var result = title;
+    function __buildItemTitle(item) {
+      var result = item.title;
+      var projectId = item.projectId;
       if (self.options.itemHandleOptions.enabled) {
         if ((self.options.itemHandleOptions.customHandler || undefined) === undefined) {
           var customCssHandler = self.options.itemHandleOptions.customCssHandler;
@@ -522,7 +524,7 @@ var dragula = require("dragula");
             customCssIconHandler = customCssHandler + "_icon";
           }
 
-          result = "<div class='item_handle "+customCssHandler+"'><i class='item_handle "+customCssIconHandler+"'></i></div><div>" + result + "</div>";
+          result = "<div id="+projectId+" class='item_handle "+customCssHandler+"'><i class='item_handle "+customCssIconHandler+"'></i></div><div>" + result + "</div>";
         } else {
           result = self.options.itemHandleOptions.customHandler.replace("%s", result);
         }

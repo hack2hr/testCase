@@ -2,26 +2,61 @@
 
 var kanban = angular.module('myApp.kanban', ['ngRoute']);
 
-kanban.controller('KanbanCtrl', function ($scope, mainService,  $rootScope) {
+kanban.controller('KanbanCtrl', function ($scope, mainService,  $rootScope, infoService) {
+
+    var openProject = function(el){
+       if($(el)[0].getAttribute("data-projectid")) {
+           getProjectById($(el)[0].getAttribute("data-projectid"));
+       } else
+           infoService.infoFunction("Невозможно открыть проект: нет id проекта", "Ошибка");
+    }
+
+    var changeProjectStatus = function(el, target){
+        if($(el)[0].getAttribute("data-projectid")) {
+            if(target.parentElement.getAttribute('data-id')){
+                changeStatusForProject($(el)[0].getAttribute("data-projectid"), target.parentElement.getAttribute('data-id'));
+            } else {
+                infoService.infoFunction("Невозможно сохранить проект: нет border id", "Ошибка");
+            }
+        } else
+            infoService.infoFunction("Невозможно сохранить проект: нет id проекта", "Ошибка");
+    }
+
+    function changeStatusForProject(projectId, statusId){
+        console.log(projectId)
+        console.log(statusId)
+    }
+
+    function getProjectById(projectId){
+        console.log(projectId)
+    }
+
+    var itemsColors = ['text-secondary', 'text-info', 'text-dark', 'text-warning', 'text-danger', 'text-success']
+
+    var projects = [
+        { id:"_text", projectId: 123, title: "Идея у меня есть такая то", click: openProject, drop: changeProjectStatus, class: [itemsColors[0]]},
+        { id:"_text", projectId: 1234, title: "Как это сделать? а хз как", click: openProject, drop: changeProjectStatus, class: [itemsColors[1]] }
+        ];
 
     var boards = [
         {
-            id: "_problem", title: "Проблема", class: "text-light,pointer,bg-secondary", dragTo: ["_working"], item: [{id: "_test_delete", title: "Try drag this (Look the console)"},{title: "Try Click This!", click: function(el) {alert("click")}, class: ["peppe", "bello"]}]
-        },
-        {
-            id: "_idea", title: "Идея проекта", class: "text-light,pointer,bg-info", dragTo: ["_working"], item: [{id: "_test_delete", title: "Try drag this (Look the console)"},{title: "Try Click This!", click: function(el) {alert("click")}, class: ["peppe", "bello"]}]
-        },
-        {
-            id: "_idea", title: "HADI", class: "text-light,pointer,bg-dark", dragTo: ["_working"], item: [{id: "_test_delete", title: "Try drag this (Look the console)"},{title: "Try Click This!", click: function(el) {alert("click")}, class: ["peppe", "bello"]}]
-        },
-        {
-            id: "_working", title: "Разработка", class: "text-light,pointer,bg-warning", item: [{title: "Do Something!"}, {title: "Run?"}]
-        },
-        {
-            id: "_in_review", title: "Внедрение", class: "text-light,pointer,bg-danger", item: [{title: "Do Something!"}, {title: "Run?"}]
-        },
-        {
-            id: "_done", title: "Внедрено", class: "text-light,pointer,bg-success", dragTo: ["_working"], item: [{title: "All right"}, {title: "Ok!"}]
+            id: "_problem", title: "Проблема", class: "text-light,pointer,bg-secondary",
+            item: [projects[0]]
+        }, {
+            id: "_idea", title: "Идея проекта", class: "text-light,pointer,bg-info",
+            item: [projects[1]]
+        }, {
+            id: "_hadi", title: "HADI", class: "text-light,pointer,bg-dark",
+            item: []
+        }, {
+            id: "_working", title: "Разработка", class: "text-light,pointer,bg-warning",
+            item: []
+        }, {
+            id: "_in_review", title: "Внедрение", class: "text-light,pointer,bg-danger",
+            item: []
+        }, {
+            id: "_done", title: "Внедрено", class: "text-light,pointer,bg-success",
+            item: []
         }
     ];
 
@@ -33,11 +68,11 @@ kanban.controller('KanbanCtrl', function ($scope, mainService,  $rootScope) {
             enabled: true,
         },
         click: function(el) {
-            console.log("Trigger on all items click!");
+            //console.log("Trigger on all items click!");
         },
         dropEl: function(el, target, source, sibling){
-            console.log(target.parentElement.getAttribute('data-id'));
-            console.log(el, target, source, sibling)
+            //console.log(target.parentElement.getAttribute('data-id'));
+            //console.log(el, target, source, sibling)
         },
         buttonClick: function(el, boardId) {
             console.log(el);
@@ -49,17 +84,19 @@ kanban.controller('KanbanCtrl', function ($scope, mainService,  $rootScope) {
                 '<div class="form-group">' +
                 '<textarea class="form-control" rows="2" autofocus></textarea>' +
                 '</div><div class="form-group">' +
-                '<button type="submit" class="btn btn-primary btn-xs pull-right">Сохранить</button>' +
-                '<button type="button" id="CancelBtn" class="btn btn-default btn-xs pull-right">Отмена</button></div>';
+                '<button type="submit" ng-click="createProject()" class="btn btn-primary btn-xs pull-right p-2">Сохранить</button>' +
+                '<button type="button" ng-click="" id="CancelBtn" class="btn btn-default btn-xs pull-right p-2">Отмена</button></div>';
 
             KanbanTest.addForm(boardId, formItem);
             formItem.addEventListener("submit", function(e) {
                 e.preventDefault();
                 var text = e.target[0].value;
-                KanbanTest.addElement(boardId, {
-                    title: text
-                });
-                formItem.parentNode.removeChild(formItem);
+                if(text) {
+                    KanbanTest.addElement(boardId, {
+                        title: text
+                    });
+                    formItem.parentNode.removeChild(formItem);
+                }
             });
             document.getElementById("CancelBtn").onclick = function() {
                 formItem.parentNode.removeChild(formItem);
@@ -69,7 +106,7 @@ kanban.controller('KanbanCtrl', function ($scope, mainService,  $rootScope) {
         boards:  boards
     });
 
-    var toDoButton = document.getElementById("addToDo");
+   /* var toDoButton = document.getElementById("addToDo");
     toDoButton.addEventListener("click", function() {
         KanbanTest.addElement("_todo", {
             title: "Test Add"
@@ -110,5 +147,5 @@ kanban.controller('KanbanCtrl', function ($scope, mainService,  $rootScope) {
     var allEle = KanbanTest.getBoardElements("_todo");
     allEle.forEach(function(item, index) {
         //console.log(item);
-    });
+    });*/
 });
