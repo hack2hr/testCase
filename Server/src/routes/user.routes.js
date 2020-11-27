@@ -5,8 +5,6 @@ import auth from '../middleware/auth.middleware';
 import access from './../access';
 const router = Router();
 
-/******************************   ПОЛЬЗОВАТЕЛИ   **********************************/
-
 // /api/user/login
 router.get(
    '/login',
@@ -21,7 +19,7 @@ router.get(
       }
 
       if (password !== user.password) {
-         return response.status(400).json({ message: 'Неверный пароль, попробуйте снова' });
+         return response.status(403).json({ message: 'Неверный пароль, попробуйте снова' });
       }
 
       const token = jwt.sign(
@@ -42,7 +40,7 @@ router.get(
    wrapResponse(async (request, response) => {
       const token = request.headers.authorization;
       if (!token) {
-         return response.status(400).json({ message: 'Пользователь не был автризован' });
+         return response.status(403).json({ message: 'Пользователь не был автризован' });
       }
 
       const decoded = jwt.verify(token, getFromConfig('jwtsecret'));

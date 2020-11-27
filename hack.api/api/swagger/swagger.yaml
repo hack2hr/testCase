@@ -37,10 +37,18 @@ paths:
           required: true
           type: string
       responses:
-        "201":
+        "200":
           description: Успешная авторизация
           schema:
             $ref: "#/definitions/user/login/success"
+        "400":
+          description: Пользователь не найден
+          schema:
+            $ref: "#/definitions/user/login/notFound"
+        "403":
+          description: Неверный пароль
+          schema:
+            $ref: "#/definitions/user/login/passwordIncorrect"
         default:
           description: Ошибка на сервере
           schema:
@@ -58,9 +66,19 @@ definitions:
         properties:
           token:
             type: string
-          user:
-            type: schemes
-  ErrorResponse:
+      notFound:
+        schema:
+          $ref: "#/definitions/StantardError"
+      passwordIncorrect:
+        schema:
+          $ref: "#/definitions/StantardError"
+  StantardError:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  ServerError:
     required:
       - message
       - error
