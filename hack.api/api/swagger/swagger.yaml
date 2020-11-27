@@ -1,0 +1,74 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: API СПРИ ПАО "Россети"
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /api/
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /user/login:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: user_login
+    get:
+      description: Авторизация пользователя в системе
+      # used as the method name of the controller
+      operationId: login
+      parameters:
+        - name: name
+          in: query
+          description: Имя пользователя
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: Пароль пользователя в системе
+          required: true
+          type: string
+      responses:
+        "201":
+          description: Успешная авторизация
+          schema:
+            $ref: "#/definitions/user/login/success"
+        default:
+          description: Ошибка на сервере
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /user/getUserByToken:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  user:
+    login:
+      success:
+        required:
+          - token
+          - user
+        properties:
+          token:
+            type: string
+          user:
+            type: schemes
+  ErrorResponse:
+    required:
+      - message
+      - error
+      - stack
+    properties:
+      message:
+        type: string
+      error:
+        type: string
+      stack:
+        type: string

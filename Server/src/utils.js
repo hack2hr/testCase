@@ -11,8 +11,10 @@ export const getFromConfig = (query) => {
 
 // WRAPPERS
 export const wrapSql = (queryString, data) => sql(queryString)(data);
-export const handleDefault = (response, error) =>
+export const handleDefault = (response, error) => {
+   console.log(error, error.stack);
    response.status(500).json({ message: 'Что-то пошло не так, попробуйте снова', error, stack: error.stack });
+};
 export const wrapResponse = (func) => {
    return (request, response, next) => {
       try {
@@ -48,19 +50,26 @@ export const db = {
          return wrapSql(queryString, data);
       },
       // UPDATE
-      update: (table, data) => {
-         const queryString = `UPDATE ${table} as t SET document = to_tsvector(project_name || '. ' || project_describe) WHERE document IS NULL;`
-      },
+      // update: (table, data) => {
+      //    const queryString = `UPDATE ${table} as t SET ${
+      //       Object.keys(data)
+      //    } document = to_tsvector(project_name || '. ' || project_describe) WHERE document IS NULL;`
+      // },
 
       // API
       user: {
-         getAllUsers: () => {
-            return sql(`SELECT user_id, login, role, password, firstname,
-                           lastname, surname, company,
-                           department, "position", r.region_name
+         getAllUsers: () => sql(`
+            SELECT   user_id, login, role, password, firstname,
+                     lastname, surname, company,
+                     department, "position", r.region_name
             FROM users as u
-            LEFT JOIN regions as r on r.region_id = u.region_id`)({})
-         }
+            LEFT JOIN regions as r on r.region_id = u.region_id
+         `)({}),
+         
+         setDocuments: (user_id) => sql(`
+            UPDATE users
+            SET document = to_tsvector(firstname || '. ' || lastname || '. ' || surname || '. ' || company || '. ' || department || '. ' || position) WHERE user_id = :user_id
+         `)({ user_id: user_id })
       }
    }
 };

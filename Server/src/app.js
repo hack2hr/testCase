@@ -3,7 +3,7 @@ const {Client} = require('pg');
 import {getFromConfig} from './utils';
 
 const hostname = process.env.IP_ADDRESS || '10.0.0.6';
-const port = 8080;
+const port = 8081;
 const app = express();
 const saveClient = (req, res, next) => {
     req.client = client;
